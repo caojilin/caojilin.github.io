@@ -201,7 +201,7 @@ function init() {
                     map: map,
                     icon: image
                 });
-                
+
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
