@@ -1,10 +1,15 @@
-/*!
- * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
 
-// jQuery to collapse the navbar on scroll
+</head>
+<body>
+<div id="map"></div>
+
+<script>
 $(window).scroll(function() {
     if ($(".navbar").offset().top > 50) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
@@ -54,7 +59,7 @@ function init() {
         scrollwheel: false,
         draggable: false,
 
-        // How you would like to style the map. 
+        // How you would like to style the map.
         // This is where you would paste any style found on Snazzy Maps.
         styles: [{
             "featureType": "water",
@@ -166,32 +171,21 @@ function init() {
         }]
     };
 
-    // Get the HTML DOM element that will contain your map 
+    // Get the HTML DOM element that will contain your map
     // We are using a div with id="map" seen below in the <body>
     var mapElement = document.getElementById('map');
 
     // Create the Google Map using out element and options defined above
     var map = new google.maps.Map(mapElement, mapOptions);
-//    var infoWindow;
 
 // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-//
-//        infoWindow.setPosition(pos);
-//        infoWindow.setContent('Location found.');
-//        infoWindow.open(map);
-        map.setCenter(pos);
-        var image = 'img/map-marker.png';
-        var beachMarker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            icon: image
-        });
+
+        var lat = position.coords.latitude,
+        var lng = position.coords.longitude
+
+        map.setCenter(lat, lng);
       }, function() {
         handleLocationError(true, infoWindow, map.getCenter());
       });
@@ -200,3 +194,20 @@ function init() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
 
+    // Custom Map Marker Icon - Customize the map-marker.png file to customize your icon
+    var image = 'img/map-marker.png';
+    var myLatLng = new google.maps.LatLng(lat, lng);
+    var beachMarker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: image
+    });
+}
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDKGp58v5iLpC6NR5YCmo759q1wdbHQQ0&callback=initMap">
+</script>
+</body>
+</html>
