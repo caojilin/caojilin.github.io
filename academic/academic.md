@@ -1,16 +1,16 @@
 ---
 layout: page
-title: Blog
-permalink: /blog/
+title: Academic
+permalink: /academic/
 ---
   {% assign total = 0 %}
-  {% for post in site.posts %}
+  {% for post in site.categories.academic %}
     {% assign total = total | plus: 1 %}
   {% endfor %}
 <h1 class="page-heading">Recent Posts ({{ total }})</h1>
 
   <ul class="post-list">
-    {% for post in site.posts %}
+    {% for post in site.categories.academic%}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
