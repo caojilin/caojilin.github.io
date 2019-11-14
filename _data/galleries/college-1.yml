@@ -1,0 +1,30 @@
+picture_path: college/part1
+preview:
+  filename: IMG_0539
+  original: IMG_0539.JPG
+  thumbnail: IMG_0539.JPG
+  title: Santa Monica
+  caption: A coffee
+pictures:
+- filename: IMG_0539
+  original: IMG_0539.JPG
+  thumbnail: IMG_0539.JPG
+  title: Santa Monica
+  caption: A coffee
+- filename: IMG_0411
+  original: IMG_0411.JPG
+  thumbnail: IMG_0411.JPG
+  title: fff
+  caption: fff
+- filename: IMG_0390
+  original: IMG_0390.JPG
+  thumbnail: IMG_0390.JPG
+- filename: IMG_0375
+  original: IMG_0375.JPG
+  thumbnail: IMG_0375.JPG
+- filename: IMG_0340
+  original: IMG_0340.JPG
+  thumbnail: IMG_0340.JPG
+- filename: IMG_0343
+  original: IMG_0343.JPG
+  thumbnail: IMG_0343.JPG
