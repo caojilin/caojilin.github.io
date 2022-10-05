@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+a{
+  color: #1479BE;
+  text-decoration: none;
+
+}
+
+a:hover{
+  color: black;
+}
+
+.row1 {
+  display: flex;
+}
+
+.row1-h2{
+  margin: 10px;
+}
