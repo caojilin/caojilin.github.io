@@ -57,7 +57,7 @@ inpt.position(width+100, 100)
 }
 
 function restart(){
-  reset()
+  reset_everything()
 }
 
 function get_empty(){
@@ -70,7 +70,7 @@ function get_empty(){
     }
   }
 }
-function reset(){
+function reset_everything(){
   board = JSON.parse(JSON.stringify(board_copy))
   all_states = [JSON.parse(JSON.stringify(board))]
   state_index = 0
@@ -86,7 +86,7 @@ function submit(){
   board = JSON.parse(inpt.value())
   board_copy = JSON.parse(JSON.stringify(board))
   console.log('input board', board)
-  reset()
+  reset_everything()
 }
 
 
