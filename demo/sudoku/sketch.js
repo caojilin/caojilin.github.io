@@ -147,7 +147,7 @@ function draw_grid(board){
         if(board[i][j] != "."){
           textSize(w/2)
           textAlign(CENTER, CENTER)
-          text(board[i][j], i*w+w/2, j*w+w/2)
+          text(board[i][j], j*w+w/2, i*w+w/2)
         }
         
       }
