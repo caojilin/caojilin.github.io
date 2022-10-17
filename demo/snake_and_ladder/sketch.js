@@ -1,45 +1,75 @@
 
 
-// let board = [
-//   [-1,-1,-1,-1,-1,-1],
-//   [-1,-1,-1,-1,-1,-1],
-//   [-1,-1,-1,-1,-1,-1],
-//   [-1,35,-1,-1,13,-1],
-//   [-1,-1,-1,-1,-1,-1],
-//   [-1,15,-1,-1,-1,-1]]
+let board1 = [
+  [-1,-1,-1,-1,-1,-1],
+  [-1,-1,-1,-1,-1,-1],
+  [-1,-1,-1,-1,-1,-1],
+  [-1,35,-1,-1,13,-1],
+  [-1,-1,-1,-1,-1,-1],
+  [-1,15,-1,-1,-1,-1]]
 
 let board = [[-1,-1,-1,30,-1,144,124,135,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,167,93,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,77,-1,-1,90,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,122,-1],[-1,-1,-1,23,-1,-1,-1,-1,-1,155,-1,-1,-1],[-1,-1,140,29,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,115,-1,-1,-1,109,-1,-1,5],[-1,57,-1,99,121,-1,-1,132,-1,-1,-1,-1,-1],[-1,48,-1,-1,-1,68,-1,-1,-1,-1,31,-1,-1],[-1,163,147,-1,77,-1,-1,114,-1,-1,80,-1,-1],[-1,-1,-1,-1,-1,57,28,-1,-1,129,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,87,-1,-1,-1]]
 
 
-let n = board.length
 let width = 600
+let n = board.length
 let w = width/n
 let highlight = false
 let coordinates = {}
 let map_ij_to_x = {}
 let map_x_to_ij = {}
+let inpt
+let result_div
+let result_div2
+let path 
 
 
 function setup() {
   createCanvas(width, width);
   set_coordinates()
-  let path = solve()
-  let result_div = createElement('pre', "optimal path is : " + JSON.stringify(path));
-  
+  path = solve()
+  button = createButton('submit')
+  button.mousePressed(submit)
+  inpt = createElement("textarea" , JSON.stringify(board1));
+  inpt.elt.rows = 20;
+  inpt.elt.cols = 50;
+  inpt.position(width+100, 200)
+
+  result_div = createElement('pre', "optimal path is : " + JSON.stringify(path));
   result_div.style('font-size', '16px');
   result_div.position(width+20, 80);
   
-  let result_div2 = createElement('pre', "and the minimum steps are "+(path.length-1));
-  
+  result_div2 = createElement('pre', "and the minimum steps are "+(path.length-1));
   result_div2.style('font-size', '16px');
   result_div2.position(width+20, 80+20);
 }
 
 
 
+function submit(){
+  board = JSON.parse(inpt.value())
+  board_copy = JSON.parse(JSON.stringify(board))
+  reset_everything()
+}
+
+function reset_everything(){
+  n = board.length
+  w = width/n
+  highlight = false
+  coordinates = {}
+  map_ij_to_x = {}
+  map_x_to_ij = {}
+  set_coordinates()
+  path = solve()
+  loop()
+}
+
 function draw() {
   background(220);
   draw_grid()
+  
+  result_div.elt.innerHTML = "optimal path is : " + JSON.stringify(path)
+  result_div2.elt.innerHTML = "and the minimum steps are "+(path.length-1)
   noLoop()
 }
 
@@ -183,8 +213,6 @@ function solve(){
           let y = board[indices[0]][indices[1]]
           if(y != -1){
             let new_path = path.concat([[nx, y]])
-            console.log(y, new_path)
-            
             q.unshift([y, new_path])
           }else{
             let new_path = path.concat([nx])
