@@ -6,12 +6,7 @@
 }
 
 
-a{
-  color: #1479BE;
-  text-decoration: none;
-
-}
-
-a:hover{
-  color: black;
+video {
+  margin-top: 60px;
+  margin-bottom: 60px;
 }

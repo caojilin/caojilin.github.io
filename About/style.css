@@ -15,3 +15,9 @@ a{
 a:hover{
   color: black;
 }
+
+.row1 {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
