@@ -1,4 +1,4 @@
-.header {
+.container {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -9,19 +9,17 @@
   color: black;
 }
 
-a {
+.href-blue {
   color: #1479be;
+}
+
+a {
+  color: rgb(49, 210, 183);
+  /* color: #1479be; */
   text-decoration: none;
 }
 
 a:hover {
-  color: black;
-}
-
-.row1 {
-  display: flex;
-}
-
-.row1-h2 {
-  margin: 10px;
+  /* color: black; */
+  color: #1479be;
 }

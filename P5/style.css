@@ -14,12 +14,10 @@
 }
 
 a {
-  color: rgb(94, 169, 82);
-  /* color: #1479be; */
+  color: rgb(49, 210, 183);
   text-decoration: none;
 }
 
 a:hover {
-  /* color: black; */
-  color: #1479be;
+  color: black;
 }
