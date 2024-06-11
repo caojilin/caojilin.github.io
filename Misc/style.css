@@ -9,17 +9,17 @@
   color: black;
 }
 
-a {
+.href-blue {
   color: #1479be;
+}
+
+a {
+  color: rgb(49, 210, 183);
+  /* color: #1479be; */
   text-decoration: none;
 }
 
 a:hover {
-  color: black;
-}
-
-.row1 {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  /* color: black; */
+  color: #1479be;
 }

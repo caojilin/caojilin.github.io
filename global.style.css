@@ -5,13 +5,16 @@
   align-items: center;
 }
 
-a{
-  color: #1479BE;
-  text-decoration: none;
-
+.href-black {
+  color: black;
 }
 
-a:hover{
+a {
+  color: #1479be;
+  text-decoration: none;
+}
+
+a:hover {
   color: black;
 }
 
@@ -19,6 +22,6 @@ a:hover{
   display: flex;
 }
 
-.row1-h2{
+.row1-h2 {
   margin: 10px;
 }
