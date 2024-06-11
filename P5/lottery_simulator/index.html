@@ -2,21 +2,46 @@
 <html lang="en">
   <head>
     <script src="../p5/p5.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
-
   </head>
   <body>
     <div class="container">
       <script class="canvas" src="sketch.js"></script>
-      
     </div>
-    <p style="position: absolute; left: 20px; top: 450px;">reference: <a href="https://www.cwl.gov.cn/c/2018/10/12/417937.shtml" target="_blank">https://www.cwl.gov.cn/c/2018/10/12/417937.shtml</a>
-      and <a href="http://www.cwl.gov.cn/ygkj/wqkjgg/ssq/" target="_blank">http://www.cwl.gov.cn/ygkj/wqkjgg/ssq/</a>
-    <br>
-      It will pop up a alert window when you win at least $3000
+    <p style="position: absolute; left: 600px; top: 10px">
+      <br />
+      There are 6 red balls and 1 blue ball<br />
+      red number is from 1 to 33<br />
+      blue is 1 to 16<br />
+      each lottery costs $2<br />
+      <strong>1st and 2nd prize money is determined by the pool</strong> <br />
+      <ul style="position: absolute; left: 570px; top: 140px">
+        <li>1st: all nums match, according to history the average is around <strong>$6,000,000</strong></li>
+        <li>2nd: 6 red nums match, average is around $200,000</li>
+        <li>3rd: 5 red, 1 blue, get fixed $3000</li>
+        <li>4th: all 5 red or 4 red and 1 blue, get fixed $200</li>
+        <li> 5th: 4 red or 3 red and 1 blue, get fixed $10</li>
+        <li>6th: 1 blue, get fixed $5</li>
+      </ul>  
     </p>
-    
+    <p style="position: absolute; left: 20px; top: 500px">
+      <br />
+      Each lottery is $2
+      <br />
+      It will pop up a alert window to notify you when you win 3rd prize or
+      higher
+      <br />
+      reference:
+      <a href="https://www.cwl.gov.cn/c/2018/10/12/417937.shtml" target="_blank"
+        >https://www.cwl.gov.cn/c/2018/10/12/417937.shtml</a
+      >
+      and
+      <a href="http://www.cwl.gov.cn/ygkj/wqkjgg/ssq/" target="_blank"
+        >http://www.cwl.gov.cn/ygkj/wqkjgg/ssq/</a
+      >
+    </p>
+
     <!-- <button onclick="history.go(0)">Refresh Page</button> -->
   </body>
 </html>
