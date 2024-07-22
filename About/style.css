@@ -21,3 +21,11 @@ a {
 a:hover {
   color: black;
 }
+
+.row1 {
+  margin-top: -30px;
+}
+
+.verse {
+  margin-top: 30px;
+}
