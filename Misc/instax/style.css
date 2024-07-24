@@ -1,0 +1,80 @@
+.carousel-wrapper {
+  width: 400px;
+  height: 580px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 5px 55px 0px rgba(46, 61, 73, 0.2);
+  border-radius: 20px;
+  margin: 0px auto;
+}
+
+.carousel-container {
+  width: 350px;
+  height: 466px;
+  overflow: hidden;
+  margin-top: -40px;
+}
+
+.carousel {
+  display: flex;
+  width: 4000px;
+  animation: sliding 15s infinite;
+  margin-top: -40px;
+}
+.carousel div {
+  width: 350px;
+  height: 466px;
+  background-size: cover;
+  /* background-position: center; */
+  margin-top: 40px;
+  margin-right: 10px;
+}
+.carousel:hover {
+  animation-play-state: paused;
+}
+.carousel .image-one {
+  background-image: url("../../static/images/1.jpg");
+}
+.carousel .image-two {
+  background-image: url("../../static/images/2.jpg");
+}
+.carousel .image-three {
+  background-image: url("../../static/images/3.jpg");
+}
+.carousel .image-four {
+  background-image: url("../../static/images/4.jpg");
+}
+.carousel .image-five {
+  background-image: url("../../static/images/5.jpg");
+}
+.carousel .image-six {
+  background-image: url("../../static/images/6.jpg");
+}
+
+@keyframes sliding {
+  0% {
+    transform: translateX(0);
+  }
+  14.3% {
+    transform: translateX(-360px);
+  }
+  28.6% {
+    transform: translateX(-720px);
+  }
+  42.9% {
+    transform: translateX(-1080px);
+  }
+  57.2% {
+    transform: translateX(-1440px);
+  }
+  71.4% {
+    transform: translateX(-1800px);
+  }
+  /* 85.7% {
+      transform: translateX(-2100px);
+    } */
+  100% {
+    transform: translateX(0);
+  }
+}
