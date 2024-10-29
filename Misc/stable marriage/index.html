@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stable Marriage Problem</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      pre {
+        background: #f0f0f0;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Stable Marriage Problem</h1>
+
+      <h3>Men Preferences (Matrix Format)</h3>
+      <textarea
+        id="menInput"
+        placeholder="Enter men preferences (e.g.,&#10;a: 1,2,3,4&#10;b: 2,1,4,3&#10;c: 3,4,1,2&#10;d: 4,3,2,1)"
+      ></textarea>
+
+      <h3>Women Preferences (Matrix Format)</h3>
+      <textarea
+        id="womenInput"
+        placeholder="Enter women preferences (e.g.,&#10;1: b,a,d,c&#10;2: a,b,c,d&#10;3: d,c,b,a&#10;4: c,d,a,b)"
+      ></textarea>
+
+      <button id="generateButton">Generate Random Input</button>
+      <button id="runButton">Run Algorithm</button>
+      <h3>Result</h3>
+      <pre id="output"></pre>
+    </div>
+
+    <script>
+      function generateRandomInput() {
+        const menCount = 4;
+        const womenCount = 4;
+        const men = ["a", "b", "c", "d"];
+        const women = ["1", "2", "3", "4"];
+        const menPreferences = {};
+        const womenPreferences = {};
+
+        for (const man of men) {
+          const prefs = [...women].sort(() => Math.random() - 0.5).join(",");
+          menPreferences[man] = prefs;
+        }
+
+        for (const woman of women) {
+          const prefs = [...men].sort(() => Math.random() - 0.5).join(",");
+          womenPreferences[woman] = prefs;
+        }
+
+        document.getElementById("menInput").value = Object.entries(
+          menPreferences
+        )
+          .map(([man, prefs]) => `${man}: ${prefs}`)
+          .join("\n");
+
+        document.getElementById("womenInput").value = Object.entries(
+          womenPreferences
+        )
+          .map(([woman, prefs]) => `${woman}: ${prefs}`)
+          .join("\n");
+      }
+
+      document.getElementById("generateButton").onclick = generateRandomInput;
+
+      document.getElementById("runButton").onclick = function () {
+        const menInput = document.getElementById("menInput").value.trim();
+        const womenInput = document.getElementById("womenInput").value.trim();
+
+        const men = {};
+        const women = {};
+
+        // Parse men preferences
+        menInput.split("\n").forEach((line) => {
+          const [man, prefs] = line.split(":");
+          men[man.trim()] = prefs.split(",").map((p) => p.trim());
+        });
+
+        // Parse women preferences
+        womenInput.split("\n").forEach((line) => {
+          const [woman, prefs] = line.split(":");
+          women[woman.trim()] = prefs.split(",").map((p) => p.trim());
+        });
+
+        let matchedMen = new Set();
+        let menProposed = {};
+        for (const man in men) {
+          menProposed[man] = new Set();
+        }
+        let womenAccepted = {};
+
+        while (matchedMen.size < Object.keys(men).length) {
+          for (const man of Object.keys(men).sort((a, b) =>
+            b.localeCompare(a)
+          )) {
+            if (!matchedMen.has(man)) {
+              let done = false;
+              const preference = men[man];
+              for (const woman of preference) {
+                if (!menProposed[man].has(woman)) {
+                  menProposed[man].add(woman);
+                  if (!womenAccepted[woman]) {
+                    womenAccepted[woman] = man;
+                    matchedMen.add(man);
+                    done = true;
+                  } else {
+                    const newGuy = women[woman].indexOf(man);
+                    const oldGuy = women[woman].indexOf(womenAccepted[woman]);
+                    if (newGuy < oldGuy) {
+                      matchedMen.delete(womenAccepted[woman]);
+                      womenAccepted[woman] = man;
+                      matchedMen.add(man);
+                      done = true;
+                    }
+                  }
+                }
+                if (done) {
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        document.getElementById("output").textContent = JSON.stringify(
+          womenAccepted,
+          null,
+          2
+        );
+      };
+    </script>
+  </body>
+</html>
