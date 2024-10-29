@@ -35,19 +35,47 @@
       <h3>Men Preferences (Matrix Format)</h3>
       <textarea
         id="menInput"
-        placeholder="Enter men preferences (e.g.,&#10;a: 1,2,3,4&#10;b: 2,1,4,3&#10;c: 3,4,1,2&#10;d: 4,3,2,1)"
-      ></textarea>
+        rows="5"
+        value="a: 1,2,3,4
+      b: 2,1,4,3
+      c: 3,4,1,2
+      d: 4,3,2,1"
+      >
+a: 1,2,3,4
+b: 2,1,4,3
+c: 3,4,1,2
+d: 4,3,2,1</textarea
+      >
 
       <h3>Women Preferences (Matrix Format)</h3>
       <textarea
         id="womenInput"
-        placeholder="Enter women preferences (e.g.,&#10;1: b,a,d,c&#10;2: a,b,c,d&#10;3: d,c,b,a&#10;4: c,d,a,b)"
-      ></textarea>
+        rows="5"
+        value="1: b,a,d,c
+      2: a,b,c,d
+      3: d,c,b,a
+      4: c,d,a,b"
+      >
+1: b,a,d,c
+2: a,b,c,d
+3: d,c,b,a
+4: c,d,a,b</textarea
+      >
 
       <button id="generateButton">Generate Random Input</button>
       <button id="runButton">Run Algorithm</button>
+      <button id="findAllButton">Find All Stable Matchings</button>
       <h3>Result</h3>
-      <pre id="output"></pre>
+      <div style="display: flex">
+        <div style="flex: 1; margin-right: 10px">
+          <h4>Stable Marriage Result</h4>
+          <pre id="stableMarriageOutput"></pre>
+        </div>
+        <div style="flex: 1">
+          <h4>All Stable Matchings</h4>
+          <pre id="allMatchingsOutput"></pre>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -84,7 +112,7 @@
 
       document.getElementById("generateButton").onclick = generateRandomInput;
 
-      document.getElementById("runButton").onclick = function () {
+      function runStableMarriageAlgorithm() {
         const menInput = document.getElementById("menInput").value.trim();
         const womenInput = document.getElementById("womenInput").value.trim();
 
@@ -142,12 +170,118 @@
             }
           }
         }
+        const matchingResult = {};
+        for (const woman in womenAccepted) {
+          matchingResult[woman] = womenAccepted[woman];
+        }
+        return [matchingResult];
+      }
 
-        document.getElementById("output").textContent = JSON.stringify(
-          womenAccepted,
-          null,
-          2
-        );
+      document.getElementById("runButton").onclick = function () {
+        const results = runStableMarriageAlgorithm();
+        const output = results
+          .map((matching) => {
+            return Object.entries(matching)
+              .map(([woman, man]) => `${man}: ${woman}`)
+              .join(", ");
+          })
+          .join("\n");
+        document.getElementById("stableMarriageOutput").textContent = output;
+      };
+
+      function findAllStableMatchings() {
+        const menInput = document.getElementById("menInput").value.trim();
+        const womenInput = document.getElementById("womenInput").value.trim();
+
+        const men = {};
+        const women = {};
+
+        // Parse men preferences
+        menInput.split("\n").forEach((line) => {
+          const [man, prefs] = line.split(":");
+          men[man.trim()] = prefs.split(",").map((p) => p.trim());
+        });
+
+        // Parse women preferences
+        womenInput.split("\n").forEach((line) => {
+          const [woman, prefs] = line.split(":");
+          women[woman.trim()] = prefs.split(",").map((p) => p.trim());
+        });
+
+        function manPrefer(x, y, z) {
+          // If man x prefers y over z, return true, else false
+          const preference = men[x];
+          return preference.indexOf(y) < preference.indexOf(z);
+        }
+
+        function womanPrefer(x, y, z) {
+          // If woman x prefers y over z, return true, else false
+          const preference = women[x];
+          return preference.indexOf(y) < preference.indexOf(z);
+        }
+
+        function isStable(manCurrentPartner, womanCurrentPartner) {
+          for (const woman in women) {
+            for (const man in men) {
+              if (
+                womanPrefer(woman, man, womanCurrentPartner[woman]) &&
+                manPrefer(man, woman, manCurrentPartner[man])
+              ) {
+                return false;
+              }
+            }
+          }
+          return true;
+        }
+
+        function getPermutations(array) {
+          if (array.length === 0) return [[]];
+          const first = array[0];
+          const rest = array.slice(1);
+          const restPerms = getPermutations(rest);
+          const allPerms = [];
+          for (const perm of restPerms) {
+            for (let i = 0; i <= perm.length; i++) {
+              allPerms.push([...perm.slice(0, i), first, ...perm.slice(i)]);
+            }
+          }
+          return allPerms;
+        }
+
+        const res = [];
+        const menKeys = Object.keys(men);
+        const womenKeys = Object.keys(women);
+        const allCombinations = getPermutations(womenKeys);
+
+        for (const combination of allCombinations) {
+          const matching = {};
+          for (let i = 0; i < menKeys.length; i++) {
+            matching[menKeys[i]] = combination[i];
+          }
+
+          const manCurrentPartner = matching;
+          const womanCurrentPartner = {};
+          for (const [man, woman] of Object.entries(manCurrentPartner)) {
+            womanCurrentPartner[woman] = man;
+          }
+
+          if (isStable(manCurrentPartner, womanCurrentPartner)) {
+            res.push(matching);
+          }
+        }
+        return res;
+      }
+
+      document.getElementById("findAllButton").onclick = function () {
+        const allMatchings = findAllStableMatchings();
+        const output = allMatchings
+          .map((matching) => {
+            return Object.entries(matching)
+              .map(([woman, man]) => `${woman}: ${man}`)
+              .join(", ");
+          })
+          .join("\n");
+        document.getElementById("allMatchingsOutput").textContent = output;
       };
     </script>
   </body>
