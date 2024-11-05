@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Elo Rating Probability Calculator" />
+    <title>Elo Rating Probability Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      h1 {
+        text-align: center;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      label,
+      input {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .result {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .result p {
+        font-size: 18px;
+      }
+      .rating-results p {
+        font-size: 16px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Elo Rating Winning Probability Calculator</h1>
+    <div class="container">
+      <label for="player1Rating">Player 1 Elo Rating:</label>
+      <input
+        type="number"
+        id="player1Rating"
+        placeholder="Enter Player 1's Elo Rating"
+        ,
+        value="1350"
+      />
+
+      <label for="player2Rating">Player 2 Elo Rating:</label>
+      <input
+        type="number"
+        id="player2Rating"
+        placeholder="Enter Player 2's Elo Rating"
+        ,
+        value="1250"
+      />
+
+      <label for="kFactor">Enter K Factor:</label>
+      <input
+        type="number"
+        id="kFactor"
+        placeholder="Enter K value"
+        value="30"
+      />
+
+      <button onclick="calculateProbability()">
+        Calculate Winning Probabilities
+      </button>
+
+      <div class="result" id="resultContainer"></div>
+      <div class="rating-results" id="ratingResultsContainer"></div>
+    </div>
+
+    <script>
+      // Function to handle keypress event
+      document
+        .getElementById("kFactor")
+        .addEventListener("keypress", function (event) {
+          // Check if the pressed key is "Enter"
+          if (event.key === "Enter") {
+            calculateProbability(); // Call the calculation function
+          }
+        });
+
+      // Also allow hitting Enter in the rating fields to trigger calculation
+      document
+        .getElementById("player2Rating")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            calculateProbability(); // Call the calculation function
+          }
+        });
+
+      document
+        .getElementById("player1Rating")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            calculateProbability(); // Call the calculation function
+          }
+        });
+
+      // Function to calculate probabilities and new Elo ratings
+      function calculateProbability() {
+        // Get input values
+        let player1Rating = parseInt(
+          document.getElementById("player1Rating").value
+        );
+        let player2Rating = parseInt(
+          document.getElementById("player2Rating").value
+        );
+        let kFactor = parseInt(document.getElementById("kFactor").value);
+
+        // Check if inputs are valid
+        if (isNaN(player1Rating) || isNaN(player2Rating) || isNaN(kFactor)) {
+          alert("Please enter valid Elo ratings and K factor.");
+          return;
+        }
+
+        // Elo formula for expected score
+        let expectedA =
+          1 / (1 + Math.pow(10, (player2Rating - player1Rating) / 400));
+        let expectedB =
+          1 / (1 + Math.pow(10, (player1Rating - player2Rating) / 400));
+
+        // Display the expected probabilities
+        let resultContainer = document.getElementById("resultContainer");
+        resultContainer.innerHTML = `
+                <p><strong>Player 1's Probability of Winning: </strong>${(
+                  expectedA * 100
+                ).toFixed(2)}%</p>
+                <p><strong>Player 2's Probability of Winning: </strong>${(
+                  expectedB * 100
+                ).toFixed(2)}%</p>
+            `;
+
+        // Calculate new Elo ratings for each outcome
+        // Case 1: Player 1 wins (S_A = 1, S_B = 0)
+        let newRatingA_win = player1Rating + kFactor * (1 - expectedA);
+        let newRatingB_lose = player2Rating + kFactor * (0 - expectedB);
+
+        // Calculate rating gained/lost
+        let ratingGainedA_win = newRatingA_win - player1Rating;
+        let ratingLostB_lose = newRatingB_lose - player2Rating;
+
+        // Case 2: Player 2 wins (S_A = 0, S_B = 1)
+        let newRatingA_lose = player1Rating + kFactor * (0 - expectedA);
+        let newRatingB_win = player2Rating + kFactor * (1 - expectedB);
+
+        // Calculate rating gained/lost
+        let ratingLostA_lose = newRatingA_lose - player1Rating;
+        let ratingGainedB_win = newRatingB_win - player2Rating;
+
+        // Display the new ratings and rating gains
+        let ratingResultsContainer = document.getElementById(
+          "ratingResultsContainer"
+        );
+        ratingResultsContainer.innerHTML = `
+                <div class="rating-results">
+                    <h3>If Player 1 Wins:</h3>
+                    <p><strong>Player 1's New Rating: </strong>${newRatingA_win.toFixed(
+                      2
+                    )},<strong> Player 1's Rating Gained: </strong>${ratingGainedA_win.toFixed(
+          2
+        )}</p>
+                   
+                    <p><strong>Player 2's New Rating: </strong>${newRatingB_lose.toFixed(
+                      2
+                    )} <strong>Player 2's Rating Lost: </strong>${Math.abs(
+          ratingLostB_lose
+        ).toFixed(2)}</p>
+                    <h3>If Player 2 Wins:</h3>
+                    <p><strong>Player 1's New Rating: </strong>${newRatingA_lose.toFixed(
+                      2
+                    )} <strong>Player 1's Rating Lost: </strong>${Math.abs(
+          ratingLostA_lose
+        ).toFixed(2)}</p>
+                    <p><strong>Player 2's New Rating: </strong>${newRatingB_win.toFixed(
+                      2
+                    )} <strong>Player 2's Rating Gained: </strong>${ratingGainedB_win.toFixed(
+          2
+        )}</p>
+                </div>
+            `;
+      }
+    </script>
+  </body>
+</html>
