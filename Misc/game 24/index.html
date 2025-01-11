@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>24 Game Solver</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .container > * {
+        margin: 10px 0;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.0.1/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/acorn@8.14.0/dist/acorn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>24 Game Solver</h1>
+      <div>
+        <label for="puzzleSelector">Example Puzzles:</label>
+        <select
+          id="puzzleSelector"
+          onchange="selectPuzzle(this.value)"
+        ></select>
+      </div>
+      <input type="number" id="num1" value="2" placeholder="Number 1" />
+      <input type="number" id="num2" value="3" placeholder="Number 2" />
+      <input type="number" id="num3" value="5" placeholder="Number 3" />
+      <input type="number" id="num4" value="12" placeholder="Number 4" />
+      <!-- Button group container -->
+      <div class="button-group">
+        <button onclick="find24()">Find 24</button>
+        <button onclick="selectRandomPuzzle()">Select Random One</button>
+      </div>
+      <p>
+        Example Puzzles are from
+        <a
+          href="https://github.com/princeton-nlp/tree-of-thought-llm/blob/master/src/tot/data/24/24.csv"
+          >https://github.com/princeton-nlp/tree-of-thought-llm/blob/master/src/tot/data/24/24.csv</a
+        >
+      </p>
+      <p>
+        used idea from
+        <a href="https://davidwees.com/24solver/?#"
+          >https://davidwees.com/24solver/?#</a
+        >
+        to implement
+      </p>
+      <p>
+        I tried to remove "duplicate expressions", but it seems harder than I
+        thought. I'll work on it.
+      </p>
+      <h2>Results:</h2>
+      <div id="results"></div>
+    </div>
+  </body>
+</html>
