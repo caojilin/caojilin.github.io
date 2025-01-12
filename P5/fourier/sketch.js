@@ -1,5 +1,5 @@
 // Function for first canvas
-h = 400;
+h = 370;
 w = 900;
 
 function sketch1(p) {
