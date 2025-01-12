@@ -39,6 +39,10 @@ window.onload = function () {
   loadPuzzleData();
 };
 
+// Define operator combinations
+const signs = ["+", "-", "*", "/"];
+const allSigns = cartesianProduct([signs, signs, signs]);
+
 function find24() {
   // Get input values
   const a = parseFloat(document.getElementById("num1").value);
@@ -54,10 +58,6 @@ function find24() {
 
   // Generate all permutations of the numbers
   const allArr = permutations([a, b, c, d]);
-
-  // Define operator combinations
-  const signs = ["+", "-", "*", "/"];
-  const allSigns = cartesianProduct([signs, signs, signs]);
 
   // Define all possible expression templates with operator placeholders
   const expressions = [
@@ -245,10 +245,9 @@ function removeDuplicates(array, comparator) {
   return unique;
 }
 
-
 function selectRandomPuzzle() {
-    const selector = document.getElementById('puzzleSelector');
-    const randomIndex = Math.floor(Math.random() * selector.options.length);
-    selector.selectedIndex = randomIndex;
-    selectPuzzle(selector.value);
-  }
+  const selector = document.getElementById("puzzleSelector");
+  const randomIndex = Math.floor(Math.random() * selector.options.length);
+  selector.selectedIndex = randomIndex;
+  selectPuzzle(selector.value);
+}
