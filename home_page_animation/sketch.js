@@ -8,7 +8,7 @@ function setup() {
   const canvas1 = createCanvas(800, 600);
   canvas1.parent("#box1");
   for (let i = 0; i < drawing.length; i++) {
-    x.push(new Complex(2 * drawing[i].x, -2 * drawing[i].y));
+    x.push(new Complex(1.5 * drawing[i].x, -1.5 * drawing[i].y));
   }
   fourierX = dft(x);
   fourierX.sort((a, b) => b.amp - a.amp);
