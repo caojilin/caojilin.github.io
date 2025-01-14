@@ -1,12 +1,10 @@
 // Function for first canvas
-h = 400;
+h = 370;
 w = 900;
 
 function sketch1(p) {
   let t = 0;
   let wave = [];
-  let A = 1;
-  let D = 0.5;
   let T = 1;
   let points_t = [];
   let points_y = [];
@@ -93,8 +91,6 @@ let p1 = new p5(sketch1);
 function sketch2(p) {
   let t = 0;
   let wave = [];
-  let A = 1;
-  let D = 0.5;
   let T = 1;
   let points_t = [];
   let points_y = [];
