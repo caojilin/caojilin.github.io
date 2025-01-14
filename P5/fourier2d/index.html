@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <script src="../p5/p5.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="box" id="box1"></div>
-      <div class="box" id="box2">
-        $$ X_k = \frac{1}{N} \sum_{n=0}^{N-1} x_n \cdot e^{-i k \frac{2\pi}{N}
-        n} \\ = \frac{1}{N} \sum_{n=0}^{N-1} x_n \left[ \cos\left(k
-        \frac{2\pi}{N} n\right) - i \sin\left(k \frac{2\pi}{N} n\right) \right]
-        $$
-      </div>
-      <div class="box" id="box3">
-        <div class="box" id="box3-col1"></div>
-        <div class="box" id="box3-col2"></div>
-      </div>
+
+<head>
+  <script src="../p5/p5.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="box" id="box1"></div>
+    <div class="box" id="box2">
     </div>
-    <script class="canvas" src="sketch.js"></script>
-    <script class="canvas" src="fourier.js"></script>
-  </body>
+    <div class="box" id="box3">
+      <div class="box" id="box3-col1"></div>
+      <div class="box" id="box3-col2"></div>
+    </div>
+  </div>
+  <script class="canvas" src="sketch.js"></script>
+  <script class="canvas" src="fourier.js"></script>
+</body>
+
 </html>

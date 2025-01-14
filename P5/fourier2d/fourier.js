@@ -1,46 +1,44 @@
-// Coding Challenge 130.3: Drawing with Fourier Transform and Epicycles
-// Daniel Shiffman
-// https://thecodingtrain.com/CodingChallenges/130.1-fourier-transform-drawing.html
-// https://thecodingtrain.com/CodingChallenges/130.2-fourier-transform-drawing.html
-// https://thecodingtrain.com/CodingChallenges/130.3-fourier-transform-drawing.html
-// https://youtu.be/7_vKzcgpfvU
-
-
 class Complex {
-  constructor(a, b) {
-    this.re = a;
-    this.im = b;
+  constructor(re, im) {
+    this.re = re;
+    this.im = im;
   }
-
   add(c) {
-    this.re += c.re;
-    this.im += c.im;
+    return new Complex(c.re + this.re, c.im + this.im);
+  }
+  //(a+bi)(c+di)=(ac−bd)+(ad+bc)i
+  mul(c) {
+    return new Complex(
+      this.re * c.re - this.im * c.im,
+      this.re * c.im + this.im * c.re
+    );
   }
 
-  mult(c) {
-    const re = this.re * c.re - this.im * c.im;
-    const im = this.re * c.im + this.im * c.re;
-    return new Complex(re, im);
+  norm() {
+    return sqrt(this.re * this.re + this.im * this.im);
+  }
+
+  angle() {
+    return atan2(this.im, this.re);
   }
 }
 
+//https://www.dynamicmath.xyz/fourier-epicycles/
 function dft(x) {
   const X = [];
   const N = x.length;
   for (let k = 0; k < N; k++) {
-    let sum = new Complex(0, 0);
+    let X_k = new Complex(0, 0);
     for (let n = 0; n < N; n++) {
-      const phi = (TWO_PI * k * n) / N;
-      const c = new Complex(cos(phi), -sin(phi));
-      sum.add(x[n].mult(c));
+      const w = (TWO_PI * k * n) / N;
+      X_k = X_k.add(x[n].mul(new Complex(cos(w), -sin(w))));
     }
-    sum.re = sum.re / N;
-    sum.im = sum.im / N;
-
+    X_k.re = X_k.re / N;
+    X_k.im = X_k.im / N;
     let freq = k;
-    let amp = sqrt(sum.re * sum.re + sum.im * sum.im);
-    let phase = atan2(sum.im, sum.re);
-    X[k] = { re: sum.re, im: sum.im, freq, amp, phase };
+    let amp = X_k.norm();
+    let phase = X_k.angle();
+    X.push({ freq, amp, phase });
   }
   return X;
 }

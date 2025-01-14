@@ -23,11 +23,15 @@ function populatePuzzleSelector(data) {
     const option = document.createElement("option");
     option.value = record.Puzzles;
     option.textContent = `${record.Puzzles} - Solved rate: ${record["Solved rate"]}`;
+    if (record.Puzzles == "2 3 5 12") {
+      option.selected = true;
+    }
     selector.appendChild(option);
   });
 }
 
 function selectPuzzle(puzzleString) {
+  console.log(puzzleString);
   const nums = puzzleString.split(" ").map((num) => parseFloat(num));
   document.getElementById("num1").value = nums[0];
   document.getElementById("num2").value = nums[1];

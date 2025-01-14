@@ -1,10 +1,3 @@
-// Coding Challenge 130.3: Drawing with Fourier Transform and Epicycles
-// Daniel Shiffman
-// https://thecodingtrain.com/CodingChallenges/130.1-fourier-transform-drawing.html
-// https://thecodingtrain.com/CodingChallenges/130.2-fourier-transform-drawing.html
-// https://thecodingtrain.com/CodingChallenges/130.3-fourier-transform-drawing.html
-// https://youtu.be/7_vKzcgpfvU
-
 const USER = 0;
 const FOURIER = 1;
 
@@ -14,6 +7,7 @@ let time = 0;
 let path = [];
 let drawing = [];
 let state = -1;
+const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
 
 function mousePressed() {
   state = USER;
@@ -25,23 +19,32 @@ function mousePressed() {
 
 function mouseReleased() {
   state = FOURIER;
-  const skip = 1;
-  for (let i = 0; i < drawing.length; i += skip) {
+  for (let i = 0; i < drawing.length; i++) {
     x.push(new Complex(drawing[i].x, drawing[i].y));
   }
   fourierX = dft(x);
-
   fourierX.sort((a, b) => b.amp - a.amp);
+  console.log(drawing);
 }
 
 function setup() {
-  let canvas1 = createCanvas(windowWidth, windowHeight);
+  const canvas1 = createCanvas(600, 600);
   canvas1.parent("#box1");
-  background(0);
-  fill(255);
-  textAlign(CENTER);
-  textSize(64);
-  text("Draw Something!", width / 2, height / 2);
+  background(220);
+  slider1 = createSlider(1, 200, 200, 1);
+  slider1.parent("#box3-col1");
+  para = createP("number of circles: " + slider1.value()); // Display initial value
+  para.parent("#box3-col1");
+  para.style("color", "blue"); // Set text color to blue
+  para.style("font-size", "16px"); // Set font size
+  para.style("marginRight", "16px"); // Set font size
+
+  slider2 = createSlider(30, 60, 57, 1);
+  slider2.parent("#box3-col2");
+  para2 = createP("anime speed: " + slider2.value());
+  para2.parent("#box3-col2");
+  para2.style("color", "green");
+  para2.style("font-size", "16px");
 }
 
 function epicycles(x, y, rotation, fourier) {
@@ -49,26 +52,31 @@ function epicycles(x, y, rotation, fourier) {
     let prevx = x;
     let prevy = y;
     let freq = fourier[i].freq;
-    let radius = fourier[i].amp;
+    let amp = fourier[i].amp;
     let phase = fourier[i].phase;
-    x += radius * cos(freq * time + phase + rotation);
-    y += radius * sin(freq * time + phase + rotation);
-
-    stroke(255, 100);
+    x += amp * cos(freq * time + phase + rotation);
+    y += amp * sin(freq * time + phase + rotation);
+    push();
+    strokeWeight(1);
+    stroke(colors[i % 7]);
     noFill();
-    ellipse(prevx, prevy, radius * 2);
-    stroke(255);
+    ellipse(prevx, prevy, 2 * amp);
+    stroke(colors[i % 7]);
     line(prevx, prevy, x, y);
+    pop();
   }
   return createVector(x, y);
 }
 
 function draw() {
+  background(220);
+  para.html("number of circles: " + slider1.value());
+  para2.html("anime speed: " + round(slider2.value(), 4));
   if (state == USER) {
-    background(0);
     let point = createVector(mouseX - width / 2, mouseY - height / 2);
     drawing.push(point);
-    stroke(255);
+    stroke(0);
+    strokeWeight(2);
     noFill();
     beginShape();
     for (let v of drawing) {
@@ -76,24 +84,31 @@ function draw() {
     }
     endShape();
   } else if (state == FOURIER) {
-    background(0);
-    let v = epicycles(width / 2, height / 2, 0, fourierX);
+    background(220);
+    let v = epicycles(
+      width / 2,
+      height / 2,
+      0,
+      fourierX.slice(0, slider1.value())
+    );
     path.unshift(v);
+
     beginShape();
     noFill();
     strokeWeight(2);
-    stroke(255, 0, 255);
+    stroke(0);
     for (let i = 0; i < path.length; i++) {
       vertex(path[i].x, path[i].y);
     }
     endShape();
-
     const dt = TWO_PI / fourierX.length;
-    time += dt;
-
-    if (time > TWO_PI) {
-      time = 0;
-      path = [];
+    if (frameCount % (61 - slider2.value()) == 0) {
+      time += dt;
     }
+
+    // if (time > TWO_PI) {
+    //   time = 0;
+    //   path = [];
+    // }
   }
 }
