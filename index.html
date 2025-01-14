@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="global.style.css" />
-  </head>
-  <body>
-    <div class="container header">
-      <h1>
-        <a class="href-black" href="index.html">Cao Jilin</a>
-      </h1>
-      <div class="row1">
-        <h2>
-          <strong>
-            <a href="P5/index.html">P5 visualization</a>
-            |
-            <a href="About/index.html">About</a>
-            |
-            <a href="Misc/index.html">Misc.</a>
-          </strong>
-        </h2>
-      </div>
-      <!-- <iframe
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Viewport meta tag -->
+  <title>Cao Jilin</title> <!-- Added a title for the page -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.min.js"
+    integrity="sha512-1YMgn4j8cIL91s14ByDGmHtBU6+F8bWOMcF47S0cRO3QNm8SKPNexy4s3OCim9fABUtO++nJMtcpWbINWjMSzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" type="text/css" href="global.style.css" />
+</head>
+
+<body>
+  <div class="container header">
+    <h1>
+      <a class="href-black" href="index.html">Cao Jilin</a>
+    </h1>
+    <div class="row1">
+      <h2>
+        <strong>
+          <a href="P5/index.html">P5 visualization</a>
+          |
+          <a href="About/index.html">About</a>
+          |
+          <a href="Misc/index.html">Misc.</a>
+        </strong>
+      </h2>
+      <div class="box" id="box1"></div>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="box" id="box1"></div>
+    <div class="box" id="box2">
+    </div>
+    <div class="box" id="box3">
+      <div class="box" id="box3-col1"></div>
+      <div class="box" id="box3-col2"></div>
+    </div>
+  </div>
+  <!-- <iframe
         src="https://coin.playables.net/"
         style="height: 500px; width: 800px"
         title="description"
       ></iframe> -->
-    </div>
-  </body>
+  </div>
+  <script class="canvas" src="home_page_animation/drawing.js"></script>
+  <script class="canvas" src="home_page_animation/fourier.js"></script>
+  <script class="canvas" src="home_page_animation/sketch.js"></script>
+</body>
+
 </html>

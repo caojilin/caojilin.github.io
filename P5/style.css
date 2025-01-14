@@ -1,8 +1,10 @@
+/* General Styles */
 .container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  text-align: center; /* Center text for better readability on small screens */
 }
 
 .href-black {
@@ -24,4 +26,39 @@ a:hover {
 
 .row1 {
   margin-top: -30px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* Adjustments for tablets and smaller screens */
+  h1 {
+    font-size: 2rem; /* Use relative units (rem) for better scalability */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Use relative units (rem) for better scalability */
+  }
+
+  .row1 {
+    margin-top: -20px; /* Adjust margin for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjustments for mobile phones */
+  h1 {
+    font-size: 1.5rem; /* Further reduce font size for mobile */
+  }
+
+  h2 {
+    font-size: 1.2rem; /* Further reduce font size for mobile */
+  }
+
+  .row1 {
+    margin-top: -10px; /* Further adjust margin for mobile */
+  }
+
+  .container {
+    padding: 0 10px; /* Add padding to prevent content from touching the edges */
+  }
 }

@@ -28,6 +28,7 @@ function mouseReleased() {
 }
 
 function setup() {
+  console.log("setup");
   const canvas1 = createCanvas(600, 600);
   canvas1.parent("#box1");
   background(220);
@@ -39,7 +40,7 @@ function setup() {
   para.style("font-size", "16px"); // Set font size
   para.style("marginRight", "16px"); // Set font size
 
-  slider2 = createSlider(30, 60, 57, 1);
+  slider2 = createSlider(30, 60, 60, 1);
   slider2.parent("#box3-col2");
   para2 = createP("anime speed: " + slider2.value());
   para2.parent("#box3-col2");
