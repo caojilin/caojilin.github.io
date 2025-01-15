@@ -1,6 +1,6 @@
 const USER = 0;
 const FOURIER = 1;
-
+let canvas1;
 let x = [];
 let fourierX;
 let time = 0;
@@ -10,29 +10,33 @@ let state = -1;
 const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
 
 function mousePressed() {
-  state = USER;
-  drawing = [];
-  x = [];
-  time = 0;
-  path = [];
+  if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+    state = USER;
+    drawing = [];
+    x = [];
+    time = 0;
+    path = [];
+  }
 }
 
 function mouseReleased() {
-  state = FOURIER;
-  for (let i = 0; i < drawing.length; i++) {
-    x.push(new Complex(drawing[i].x, drawing[i].y));
+  if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+    state = FOURIER;
+    let skip = 1;
+    for (let i = 0; i < drawing.length; i += skip) {
+      x.push(new Complex(drawing[i].x, drawing[i].y));
+    }
+    fourierX = dft(x);
+    fourierX.sort((a, b) => b.amp - a.amp);
+    console.log("number of cycles", fourierX.length);
   }
-  fourierX = dft(x);
-  fourierX.sort((a, b) => b.amp - a.amp);
-  console.log(drawing);
 }
 
 function setup() {
-  console.log("setup");
-  const canvas1 = createCanvas(600, 600);
+  canvas1 = createCanvas(600, 600);
   canvas1.parent("#box1");
   background(220);
-  slider1 = createSlider(1, 200, 200, 1);
+  slider1 = createSlider(1, 1000, 1000, 1);
   slider1.parent("#box3-col1");
   para = createP("number of circles: " + slider1.value()); // Display initial value
   para.parent("#box3-col1");
@@ -40,7 +44,7 @@ function setup() {
   para.style("font-size", "16px"); // Set font size
   para.style("marginRight", "16px"); // Set font size
 
-  slider2 = createSlider(30, 60, 60, 1);
+  slider2 = createSlider(1, 61, 60, 1);
   slider2.parent("#box3-col2");
   para2 = createP("anime speed: " + slider2.value());
   para2.parent("#box3-col2");
@@ -103,13 +107,15 @@ function draw() {
     }
     endShape();
     const dt = TWO_PI / fourierX.length;
-    if (frameCount % (61 - slider2.value()) == 0) {
+    if (slider2.value() == 61) {
+      time += 2 * dt;
+    } else if (frameCount % (61 - slider2.value()) == 0) {
       time += dt;
     }
 
-    // if (time > TWO_PI) {
-    //   time = 0;
-    //   path = [];
-    // }
+    if (time > TWO_PI) {
+      time = 0;
+      path = [];
+    }
   }
 }
