@@ -1,4 +1,32 @@
-.carousel-wrapper {
+/* Reset default margin and padding */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Make each section take up the full viewport height */
+.full-screen-section {
+  height: 100vh; /* 100% of the viewport height */
+  width: 100vw; /* 100% of the viewport width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Optional: Add some styling to differentiate the sections */
+.section-1 {
+  background-color: lightblue;
+}
+
+.section-2 {
+  background-color: lightcoral;
+}
+
+/* Vertical Carousel */
+.carousel-wrapper-vertical {
   width: 400px;
   height: 580px;
   display: flex;
@@ -9,50 +37,144 @@
   margin: 0px auto;
 }
 
-.carousel-container {
+.carousel-container-vertical {
   width: 350px;
   height: 466px;
   overflow: hidden;
   margin-top: -40px;
 }
 
-.carousel {
+.carousel-vertical {
   display: flex;
   width: 4000px;
-  animation: sliding 15s infinite;
+  animation: sliding-vertical 15s infinite; /* Unique animation name */
   margin-top: -40px;
 }
-.carousel div {
+
+.carousel-vertical div {
   width: 350px;
   height: 466px;
   background-size: cover;
-  /* background-position: center; */
   margin-top: 40px;
   margin-right: 10px;
 }
-.carousel:hover {
+
+.carousel-vertical:hover {
   animation-play-state: paused;
 }
-.carousel .image-one {
+
+.carousel-vertical .image-one-vertical {
+  background-image: url("../../static/vivian/1.jpg");
+}
+
+.carousel-vertical .image-two-vertical {
+  background-image: url("../../static/vivian/2.jpg");
+}
+
+.carousel-vertical .image-three-vertical {
+  background-image: url("../../static/vivian/3.jpg");
+}
+
+.carousel-vertical .image-four-vertical {
+  background-image: url("../../static/vivian/4.jpg");
+}
+
+.carousel-vertical .image-five-vertical {
+  background-image: url("../../static/vivian/5.jpg");
+}
+
+.carousel-vertical .image-six-vertical {
+  background-image: url("../../static/vivian/6.jpg");
+}
+
+/* Keyframes for vertical carousel */
+@keyframes sliding-vertical {
+  0%,
+  16.66% {
+    transform: translateX(0); /* First image stays visible */
+  }
+  33.33% {
+    transform: translateX(-360px); /* Second image */
+  }
+  50% {
+    transform: translateX(-720px); /* Third image */
+  }
+  66.66% {
+    transform: translateX(-1080px); /* Fourth image */
+  }
+  83.33% {
+    transform: translateX(-1440px); /* Fifth image */
+  }
+  100% {
+    transform: translateX(-1800px); /* Sixth image */
+  }
+}
+
+/* Horizontal Carousel */
+.carousel-wrapper-horizontal {
+  width: 600px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 5px 55px 0px rgba(46, 61, 73, 0.2);
+  border-radius: 20px;
+  margin: 0px auto;
+}
+
+.carousel-container-horizontal {
+  width: 550px;
+  height: 400px;
+  overflow: hidden;
+  margin-top: -40px;
+}
+
+.carousel-horizontal {
+  display: flex;
+  width: 4000px;
+  animation: sliding-horizontal 15s infinite; /* Unique animation name */
+  margin-top: -40px;
+}
+
+.carousel-horizontal div {
+  width: 550px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  margin-top: 40px;
+  margin-right: 10px;
+}
+
+.carousel-horizontal:hover {
+  animation-play-state: paused;
+}
+
+.carousel-horizontal .image-one-horizontal {
   background-image: url("../../static/images/1.jpg");
 }
-.carousel .image-two {
+
+.carousel-horizontal .image-two-horizontal {
   background-image: url("../../static/images/2.jpg");
 }
-.carousel .image-three {
+
+.carousel-horizontal .image-three-horizontal {
   background-image: url("../../static/images/3.jpg");
 }
-.carousel .image-four {
+
+.carousel-horizontal .image-four-horizontal {
   background-image: url("../../static/images/4.jpg");
 }
-.carousel .image-five {
+
+.carousel-horizontal .image-five-horizontal {
   background-image: url("../../static/images/5.jpg");
 }
-.carousel .image-six {
+
+.carousel-horizontal .image-six-horizontal {
   background-image: url("../../static/images/6.jpg");
 }
 
-@keyframes sliding {
+/* Keyframes for vertical carousel */
+@keyframes sliding-vertical {
   0% {
     transform: translateX(0);
   }
@@ -71,10 +193,31 @@
   71.4% {
     transform: translateX(-1800px);
   }
-  /* 85.7% {
-      transform: translateX(-2100px);
-    } */
   100% {
     transform: translateX(0);
+  }
+}
+/* Keyframes for horizontal carousel */
+@keyframes sliding-horizontal {
+  0% {
+    transform: translateX(0); /* First image */
+  }
+  14.3% {
+    transform: translateX(-560px); /* Second image */
+  }
+  28.6% {
+    transform: translateX(-1120px); /* Third image */
+  }
+  42.9% {
+    transform: translateX(-1680px); /* Fourth image */
+  }
+  57.2% {
+    transform: translateX(-2240px); /* Fifth image */
+  }
+  71.4% {
+    transform: translateX(-2800px); /* Sixth image */
+  }
+  100% {
+    transform: translateX(0); /* Reset to first image */
   }
 }

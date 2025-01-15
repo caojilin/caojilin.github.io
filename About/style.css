@@ -1,8 +1,10 @@
+/* General Styles */
 .container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  text-align: center; /* Center text for better readability */
 }
 
 .href-black {
@@ -35,4 +37,51 @@ a:hover {
   font-weight: 400;
   font-size: 18px;
   font-style: normal;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* Adjustments for tablets and smaller screens */
+  h1 {
+    font-size: 2rem; /* Use relative units (rem) for scalability */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Use relative units (rem) for scalability */
+  }
+
+  h3 {
+    font-size: 1.2rem; /* Adjust h3 font size for smaller screens */
+  }
+
+  .row1 {
+    margin-top: -20px; /* Adjust margin for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjustments for mobile phones */
+  h1 {
+    font-size: 1.5rem; /* Further reduce font size for mobile */
+  }
+
+  h2 {
+    font-size: 1.2rem; /* Further reduce font size for mobile */
+  }
+
+  h3 {
+    font-size: 1rem; /* Further reduce h3 font size for mobile */
+  }
+
+  .row1 {
+    margin-top: -10px; /* Further adjust margin for mobile */
+  }
+
+  .container {
+    padding: 0 10px; /* Add padding to prevent content from touching the edges */
+  }
+
+  .freehand-regular {
+    font-size: 16px; /* Adjust font size for better readability on mobile */
+  }
 }
