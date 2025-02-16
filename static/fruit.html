@@ -46,18 +46,40 @@
 
     <script>
         // Example list of 100 words
-        const words = [
-            "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi", "Lemon",
-            "Mango", "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit", "Watermelon",
-            "Apricot", "Blackberry", "Coconut", "Dragonfruit", "Elderflower", "Guava", "Jackfruit", "Kumquat", "Lychee", "Mulberry",
-            "Olive", "Peach", "Pear", "Pineapple", "Plum", "Pomegranate", "Rambutan", "Star fruit", "Tomato", "Vanilla",
-            "Walnut", "Yuzu", "Zucchini", "Avocado", "Blueberry", "Cantaloupe", "Durian", "Eggplant", "Feijoa", "Gooseberry",
-            "Huckleberry", "Iceberg lettuce", "Jicama", "Kale", "Lime", "Melon", "Napa cabbage", "Okra", "Passionfruit", "Quinoa",
-            "Radish", "Spinach", "Turnip", "Ube", "Velvet bean", "Wasabi", "Xigua", "Yellow squash", "Zucchini flower", "Artichoke",
-            "Beetroot", "Carrot", "Daikon", "Endive", "Fennel", "Garlic", "Horseradish", "Ice plant", "Juniper berry", "Kohlrabi",
-            "Leek", "Mushroom", "Nopal", "Onion", "Parsnip", "Radicchio", "Shallot", "Taro", "Urad dal", "Vidalia onion",
-            "Watercress", "Xoconostle", "Yam", "Zucchini", "Alfalfa", "Basil", "Cilantro", "Dill", "Epazote", "Fenugreek"
-        ];
+        const words = produce = [
+            "Apple", "Apricot", "Artichoke", "Arugula", "Asparagus", "Atemoya",
+            "Avocado", "Bamboo Shoots", "Banana", "Beefsteak Tomato", "Beetroot",
+            "Bell Pepper", "Bitter Melon", "Black Sapote", "Blackberry", "Blueberry",
+            "Bok Choy", "Boysenberry", "Breadfruit", "Broccoli", "Broccolini",
+            "Brussels Sprouts", "Buddha's Hand", "Butter Lettuce", "Butternut Squash",
+            "Cabbage", "Cantaloupe", "Carambola", "Carrot", "Cassava", "Cauliflower",
+            "Celeriac", "Celery", "Champagne Grape", "Chayote", "Cherimoya", "Cherry",
+            "Cherry Tomato", "Chickpeas", "Clementine", "Coconut", "Collard Greens",
+            "Corn", "Cranberry", "Cucumber", "Currant", "Custard Apple", "Daikon",
+            "Dandelion Greens", "Date", "Delicata Squash", "Dragon Fruit", "Durian",
+            "Edamame", "Eggplant", "Elderberry", "Endive", "Escarole", "Feijoa",
+            "Fennel", "Fiddlehead Ferns", "Fig", "Finger Lime", "Garlic", "Gai Lan",
+            "Ginger", "Gooseberry", "Grape Tomato", "Grapefruit", "Grapes", "Green Beans",
+            "Guava", "Habanero", "Heirloom Tomato", "Honeydew", "Horned Melon",
+            "Hubbard Squash", "Hyacinth Bean", "Iceberg Lettuce", "Jabuticaba",
+            "Jackfruit", "Jalapeno", "Jicama", "Kale", "Kiwano", "Kiwi", "Kohlrabi",
+            "Kumquat", "Leek", "Lemon", "Lettuce", "Lima Beans", "Lime", "Loganberry",
+            "Longan", "Lychee", "Mamey Sapote", "Mandarin", "Mango", "Mangosteen",
+            "Mizuna", "Morel", "Mulberry", "Mushroom", "Nance", "Napa Cabbage",
+            "Nectarine", "Okra", "Onion", "Orange", "Oyster Mushroom", "Papaya",
+            "Parsnip", "Passion Fruit", "Pawpaw", "Peach", "Peas", "Pepino", "Persimmon",
+            "Physalis", "Pineapple", "Plantain", "Plum", "Poblano", "Pomegranate",
+            "Pomelo", "Portobello", "Potato", "Pumpkin", "Quince", "Radicchio",
+            "Radish", "Rambutan", "Rapini", "Raspberry", "Red Banana", "Redcurrant",
+            "Romanesco", "Romaine Lettuce", "Rutabaga", "Safou", "Salak", "Salsify",
+            "Sapodilla", "Shallot", "Shiitake", "Snap Peas", "Snow Peas", "Soursop",
+            "Soybean", "Spaghetti Squash", "Spinach", "Star Fruit", "Strawberry",
+            "Sugar Apple", "Sugar Snap Peas", "Sunchoke", "Surinam Cherry",
+            "Sweet Potato", "Swiss Chard", "Tamarillo", "Tamarind", "Tangerine",
+            "Taro", "Tatsoi", "Tomato", "Truffle", "Turnip", "Ugli Fruit", "Wasabi",
+            "Water Spinach", "Watercress", "Watermelon", "White Sapote", "Winged Bean",
+            "Yam", "Yardlong Bean", "Yellow Squash", "Yu Choy", "Yuzu", "Zucchini"
+        ]
 
         const wordList = document.getElementById('word-list');
         const finishedBtn = document.getElementById('finished-btn');
