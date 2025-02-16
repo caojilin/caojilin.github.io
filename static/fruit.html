@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Column Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #word-list {
+            column-count: 4;
+            /* Adjust the number of columns as needed */
+            column-gap: 20px;
+        }
+
+        .word-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            break-inside: avoid;
+            /* Prevent items from breaking across columns */
+        }
+
+        .word-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        #finished-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Multi-Column Checklist</h1>
+    <div id="word-list"></div>
+    <button id="finished-btn">Finished</button>
+    <p id="result"></p>
+
+    <script>
+        // Example list of 100 words
+        const words = [
+            "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi", "Lemon",
+            "Mango", "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit", "Watermelon",
+            "Apricot", "Blackberry", "Coconut", "Dragonfruit", "Elderflower", "Guava", "Jackfruit", "Kumquat", "Lychee", "Mulberry",
+            "Olive", "Peach", "Pear", "Pineapple", "Plum", "Pomegranate", "Rambutan", "Star fruit", "Tomato", "Vanilla",
+            "Walnut", "Yuzu", "Zucchini", "Avocado", "Blueberry", "Cantaloupe", "Durian", "Eggplant", "Feijoa", "Gooseberry",
+            "Huckleberry", "Iceberg lettuce", "Jicama", "Kale", "Lime", "Melon", "Napa cabbage", "Okra", "Passionfruit", "Quinoa",
+            "Radish", "Spinach", "Turnip", "Ube", "Velvet bean", "Wasabi", "Xigua", "Yellow squash", "Zucchini flower", "Artichoke",
+            "Beetroot", "Carrot", "Daikon", "Endive", "Fennel", "Garlic", "Horseradish", "Ice plant", "Juniper berry", "Kohlrabi",
+            "Leek", "Mushroom", "Nopal", "Onion", "Parsnip", "Radicchio", "Shallot", "Taro", "Urad dal", "Vidalia onion",
+            "Watercress", "Xoconostle", "Yam", "Zucchini", "Alfalfa", "Basil", "Cilantro", "Dill", "Epazote", "Fenugreek"
+        ];
+
+        const wordList = document.getElementById('word-list');
+        const finishedBtn = document.getElementById('finished-btn');
+        const resultText = document.getElementById('result');
+
+        // Dynamically generate the checklist
+        words.forEach((word, index) => {
+            const wordItem = document.createElement('div');
+            wordItem.className = 'word-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `word${index}`;
+
+            const label = document.createElement('label');
+            label.htmlFor = `word${index}`;
+            label.textContent = word;
+
+            wordItem.appendChild(checkbox);
+            wordItem.appendChild(label);
+            wordList.appendChild(wordItem);
+        });
+
+        // Handle the "Finished" button click
+        finishedBtn.addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let checkedCount = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedCount++;
+                }
+            });
+            resultText.textContent = `You checked ${checkedCount} out of ${words.length} items.`;
+        });
+    </script>
+</body>
+
+</html>

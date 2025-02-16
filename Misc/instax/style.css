@@ -191,7 +191,7 @@ html {
     transform: translateX(-1440px);
   }
   71.4% {
-    transform: translateX(-1800px);
+    transform: translateX(-1800px);z
   }
   100% {
     transform: translateX(0);
