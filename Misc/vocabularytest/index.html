@@ -32,7 +32,7 @@
 
 <body>
   <h1>Vocabulary size estimator</h1>
-  <p><i>Notes: the subset is sampled from the top 100k most frequent words.<br>
+  <p><i>Notes: the subset is sampled from the top 200k most frequent words.<br>
       If 10k is choosen, it means the subset is
       randomly selected
       from the first 10k most frequent words.<br>
@@ -62,6 +62,8 @@
     <option value="80000">80k most frequnt words</option>
     <option value="90000">90k most frequnt words</option>
     <option value="100000">100k most frequnt words</option>
+    <option value="150000">150k most frequnt words</option>
+    <option value="200000">200k most frequnt words</option>
   </select>
   <p><i><b>check only the word you know at the first glance, which means if it appears in a movie or in a book, you
         don't need time to think about its meaning.</b></i></p>
@@ -121,6 +123,7 @@
     function generateWordList(n, subsetSize) {
       // Get subset and sample 100 words
       const subset = allWords.slice(0, n);
+      console.log(subset.length);
       const sampledWords = getRandomSample(subset, subsetSize);
 
       // Clear previous list
@@ -163,12 +166,10 @@
     finishedBtn.addEventListener('click', () => {
       const n = parseInt(testSelect.value);
       const subsetSize = parseInt(subsetSizeSelect.value)
-      console.log(n, subsetSize);
       const multiplier = Math.floor(n / subsetSize);
       const checkboxes = document.querySelectorAll('input[type="checkbox"]');
       let checkedCount = 0;
       checkboxes.forEach(checkbox => checkedCount += checkbox.checked ? 1 : 0);
-      console.log(multiplier, checkedCount);
       resultText.textContent = `You checked ${checkedCount} out of ${subsetSizeSelect.value} words. The estimated vocabulary size is ${multiplier * checkedCount}`;
     });
   </script>
