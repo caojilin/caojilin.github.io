@@ -6,10 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multi-Column Checklist</title>
   <style>
-    /* Keep the original styles unchanged */
+    /* Base styles */
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
     }
 
     #word-list {
@@ -26,6 +35,62 @@
 
     .word-item input[type="checkbox"] {
       margin-right: 10px;
+      transform: scale(1.2);
+      /* Larger checkboxes */
+    }
+
+    select,
+    button {
+      font-size: 16px;
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      #word-list {
+        column-count: 2;
+        /* Reduce to 2 columns on tablets */
+      }
+
+      body {
+        margin: 10px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      select,
+      button {
+        width: 100%;
+        /* Full width for easier tapping */
+        margin: 10px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #word-list {
+        column-count: 1;
+        /* Single column on mobile phones */
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 13px;
+      }
+
+      .word-item input[type="checkbox"] {
+        transform: scale(1.5);
+        /* Even larger checkboxes for mobile */
+      }
     }
   </style>
 </head>
@@ -33,18 +98,16 @@
 <body>
   <h1>Vocabulary size estimator</h1>
   <p><i>Notes: the subset is sampled from the top 200k most frequent words.<br>
-      If 10k is choosen, it means the subset is
-      randomly selected
-      from the first 10k most frequent words.<br>
-      The larger the subset size, the more accurate the results should be.
+      If 10k is chosen, it means the subset is randomly selected from the first 10k most frequent words.<br>
+      The larger the subset size, the more accurate the results should be.<br>
+      You should take multiple tests to get more stable results.
     </i>
   </p>
 
-
   <label for="subset-size">Choose the subset size</label>
   <select id="subset-size">
-    <option value="100" selected>100 words</option>
-    <option value="200">200 words</option>
+    <option value="100">100 words</option>
+    <option value="200" selected>200 words</option>
     <option value="300">300 words</option>
     <option value="400">400 words</option>
     <option value="500">500 words</option>
@@ -52,21 +115,24 @@
 
   <label for="vocab-tests">from</label>
   <select id="vocab-tests">
-    <option value="10000" selected>10k most frequnt words</option>
-    <option value="20000">20k most frequnt words</option>
-    <option value="30000">30k most frequnt words</option>
-    <option value="40000">40k most frequnt words</option>
-    <option value="50000">50k most frequnt words</option>
-    <option value="60000">60k most frequnt words</option>
-    <option value="70000">70k most frequnt words</option>
-    <option value="80000">80k most frequnt words</option>
-    <option value="90000">90k most frequnt words</option>
-    <option value="100000">100k most frequnt words</option>
-    <option value="150000">150k most frequnt words</option>
-    <option value="200000">200k most frequnt words</option>
+    <option value="10000">10k most frequent words</option>
+    <option value="20000">20k most frequent words</option>
+    <option value="30000">30k most frequent words</option>
+    <option value="40000">40k most frequent words</option>
+    <option value="50000" selected>50k most frequent words</option>
+    <option value="60000">60k most frequent words</option>
+    <option value="70000">70k most frequent words</option>
+    <option value="80000">80k most frequent words</option>
+    <option value="90000">90k most frequent words</option>
+    <option value="100000">100k most frequent words</option>
+    <option value="150000">150k most frequent words</option>
+    <option value="200000">200k most frequent words</option>
   </select>
-  <p><i><b>check only the word you know at the first glance, which means if it appears in a movie or in a book, you
-        don't need time to think about its meaning.</b></i></p>
+  <p><i><b>Check only the word you know at the first glance, which means if it appears in a movie or in a book, you
+        don't need time to think about its meaning.</b></i> <br>
+    <i><b>The number along each word is the ranked frequency. For example, attorneys - 3921, "attorneys" appears 3921th
+        most frequent in the corpus.</b></i>
+  </p>
   <div id="word-list"></div>
   <p id="description">Select a test to begin</p>
   <button id="finished-btn">Finished</button>
@@ -81,49 +147,44 @@
     const testSelect = document.getElementById('vocab-tests');
     const subsetSizeSelect = document.getElementById('subset-size');
 
-
-
     // Load words from JSON file
     fetch('words.json')
       .then(response => response.json())
       .then(data => {
         allWords = data;
         testSelect.disabled = false;
-        firstCall()
-
+        firstCall();
       })
       .catch(error => {
         console.error('Error loading words:', error);
         description.textContent = 'Error loading vocabulary data. Please try again later.';
       });
 
-
     function firstCall() {
-      generateWordList(10000, 100);
+      generateWordList(30000, 200);
     }
 
     // Handle test selection
     testSelect.addEventListener('change', function () {
       const n = parseInt(testSelect.value);
-      const subsetSize = parseInt(subsetSizeSelect.value)
+      const subsetSize = parseInt(subsetSizeSelect.value);
       if (!isNaN(n) && n > 0) {
         generateWordList(n, subsetSize);
       }
     });
 
-    // Handle test selection
+    // Handle subset size selection
     subsetSizeSelect.addEventListener('change', function () {
       const n = parseInt(testSelect.value);
-      const subsetSize = parseInt(subsetSizeSelect.value)
+      const subsetSize = parseInt(subsetSizeSelect.value);
       if (!isNaN(n) && n > 0) {
         generateWordList(n, subsetSize);
       }
     });
 
     function generateWordList(n, subsetSize) {
-      // Get subset and sample 100 words
+      // Get subset and sample words
       const subset = allWords.slice(0, n);
-      console.log(subset.length);
       const sampledWords = getRandomSample(subset, subsetSize);
 
       // Clear previous list
@@ -140,7 +201,7 @@
 
         const label = document.createElement('label');
         label.htmlFor = `word${index}`;
-        label.textContent = word;
+        label.textContent = word['word'] + ' - ' + word['freq'];
 
         wordItem.appendChild(checkbox);
         wordItem.appendChild(label);
@@ -149,8 +210,7 @@
 
       // Update description
       const multiplier = Math.floor(n / subsetSize);
-      description.textContent = `${subsetSize.toLocaleString()} words are randomly sampled from ${n.toLocaleString()} most frequent words. Each check represents approximately ${multiplier.toLocaleString()} words.
-            `;
+      description.textContent = `${subsetSize.toLocaleString()} words are randomly sampled from ${n.toLocaleString()} most frequent words. Each check represents approximately ${multiplier.toLocaleString()} words.`;
     }
 
     function getRandomSample(array, sampleSize) {
@@ -162,10 +222,10 @@
       return arrCopy.slice(0, sampleSize);
     }
 
-    // Handle finished button (keep original functionality)
+    // Handle finished button
     finishedBtn.addEventListener('click', () => {
       const n = parseInt(testSelect.value);
-      const subsetSize = parseInt(subsetSizeSelect.value)
+      const subsetSize = parseInt(subsetSizeSelect.value);
       const multiplier = Math.floor(n / subsetSize);
       const checkboxes = document.querySelectorAll('input[type="checkbox"]');
       let checkedCount = 0;
