@@ -18,7 +18,7 @@
     }
 
     p {
-      font-size: 14px;
+      font-size: 16px;
     }
 
     #word-list {
@@ -62,7 +62,7 @@
       }
 
       p {
-        font-size: 14px;
+        font-size: 16px;
       }
 
       select,
@@ -123,9 +123,9 @@
   <select id="vocab-tests">
     <option value="10000">10k most frequent words</option>
     <option value="20000">20k most frequent words</option>
-    <option value="30000">30k most frequent words</option>
+    <option value="30000" selected>30k most frequent words</option>
     <option value="40000">40k most frequent words</option>
-    <option value="50000" selected>50k most frequent words</option>
+    <option value="50000">50k most frequent words</option>
     <option value="60000">60k most frequent words</option>
     <option value="70000">70k most frequent words</option>
     <option value="80000">80k most frequent words</option>
@@ -143,7 +143,68 @@
   <p id="description">Select a test to begin</p>
   <button id="finished-btn">Finished</button>
   <p id="result"></p>
+  <hr>
+  <p>
+  <h3>Read more</h3>The data is from <a href="https://norvig.com/ngrams/"> https://norvig.com/ngrams/ </a> <br>
+  Don't get fooled by "it's good enough to know only 7000 words because it
+  takes 90% of word usage", because you
+  might miss <b>one</b> or <b>two</b> keywords in a sentence, thus missed important information.<br>
+  <a href="https://www.reddit.com/r/languagelearning/comments/cuz9yd/90_understanding_7000_words_enough_for_daily/">90%
+    understanding (7,000 words) enough for daily conversation?
+  </a>
+  <table>
+    <thead>
+      <tr>
+        <th>Vocabulary size (no. lemmas)</th>
+        <th>% of content in OEC(Oxford English Corpus)</th>
+        <th>Example lemmas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>25%</td>
+        <td>the, of, and, to, that, have</td>
+      </tr>
+      <tr>
+        <td>100</td>
+        <td>50%</td>
+        <td>from, because, go, me, our, well, way</td>
+      </tr>
+      <tr>
+        <td>1,000</td>
+        <td>75%</td>
+        <td>girl, win, decide, huge, difficult, series</td>
+      </tr>
+      <tr>
+        <td>7,000</td>
+        <td>90%</td>
+        <td>tackle, peak, crude, purely, dude, modest</td>
+      </tr>
+      <tr>
+        <td>50,000</td>
+        <td>95%</td>
+        <td>saboteur, autocracy, calyx, conformist</td>
+      </tr>
+      <tr>
+        <td>&gt;1,000,000</td>
+        <td>99%</td>
+        <td>laggardly, endobenthic, pomological</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  "To be considered fluent in a language, a speaker will need a vocabulary of 10,000 words. The average adult native
+  English speaker has a vocabulary of approximately 20,000 words that they know well and use and a further 15,000 to
+  20,000 words that they can recognise and know the meaning of when they encounter them. By using these resources to
+  become familiar with the most frequently used words in the English language you will be able to concentrate your
+  learning efforts where they will pay the most return. As depicted in the chart below, the first one or two thousand
+  words will comprise the bulk of most books, articles and newspapers. The 35,000th piece of vocabulary for an English
+  speaker will only be encountered quite rarely. Therefore it is well worth your while to concentrate your learning
+  efforts on becoming familiar with these most frequently encountered words." -- <a
+    href="https://www.amazon.com/Top-10-000-Words-VOCABULARY-ebook/dp/B0BR74KQ61">Top 10,000 Words: 2023 Edition</a>
 
+  </p>
   <script>
     let allWords = [];
     const wordList = document.getElementById('word-list');
@@ -167,7 +228,7 @@
       });
 
     function firstCall() {
-      generateWordList(50000, 200);
+      generateWordList(30000, 200);
     }
 
     // Handle test selection
