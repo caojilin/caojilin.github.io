@@ -272,7 +272,8 @@
 
       // Update description
       const multiplier = Math.floor(n / subsetSize);
-      description.textContent = `${subsetSize.toLocaleString()} words are randomly sampled from ${n.toLocaleString()} most frequent words. Each check represents approximately ${multiplier.toLocaleString()} words.`;
+      description.textContent = `${subsetSize.toLocaleString()} words are randomly sampled from ${n.toLocaleString()} most frequent words. Each check represents approximately ${multiplier.toLocaleString()} words.\n note that this data does not only have word stem, so the test will tend to overestimate\n
+      for example, like, likes, liked are treated as individual word`;
     }
 
     function getRandomSample(array, sampleSize) {
