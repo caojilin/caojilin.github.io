@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Photos - Cao Jilin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Freehand&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container header">
+        <h1>
+            <a class="href-black" href="../index.html">Cao Jilin</a>
+        </h1>
+        <div class="container">
+            <div class="row1">
+                <h2>
+                    <strong>
+                        <a href="../P5/index.html">P5 js</a>
+                        |
+                        <a href="../About/index.html">About</a>
+                        |
+                        <a href="../Misc/index.html">Misc.</a>
+                        |
+                        <a class="href-black" href="../../Photo/index.html">Photo</a>
+                    </strong>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row1">
+            <div class="verse">
+                <h3><a href="../../Photo/index.html" class="href-blue">&larr; Back to</a>
+                </h3>
+            </div>
+
+            <div class="album-grid" id="album-grid"></div>
+
+        </div>
+    </div>
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7rTym58lsrWbNPtZ17pexMJttIdG6nzzvWtv5XT8zsOsYcxbU4uJ_wtgI8NVQavQQ/exec";
+        fetch(SCRIPT_URL + "?action=listFolders")
+            .then(res => res.json())
+            .then(folders => {
+                console.log(folders)
+                const grid = document.getElementById('album-grid');
+                folders.forEach(folder => {
+                    grid.innerHTML += `
+          <a href="album.html?id=${folder.id}&name=${encodeURIComponent(folder.name)}" class="album-card">
+            <div class="album-title">${folder.name}</div>
+          </a>
+        `;
+                });
+            });
+    </script>
+</body>
+
+</html>
