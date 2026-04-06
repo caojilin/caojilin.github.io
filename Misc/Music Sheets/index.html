@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .pdf-list {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            gap: 15px;
+        }
+
+        .pdf-item {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .pdf-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .pdf-link {
+            text-decoration: none;
+            color: #2f3640;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+        }
+
+        .pdf-link span {
+            font-size: 14px;
+            color: #888;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📄 My PDF Library</h1>
+
+    <div class="pdf-list">
+
+        <div class="pdf-item">
+            <a class="pdf-link" href="viewer.html?file=pdfs/Ode to Joy.pdf">
+                Ode to Joy
+                <span>Beethoven</span>
+            </a>
+        </div>
+
+        <div class="pdf-item">
+            <a class="pdf-link" href="viewer.html?file=pdfs/file2.pdf">
+                Document 2
+                <span>Chapter summary</span>
+            </a>
+        </div>
+
+        <div class="pdf-item">
+            <a class="pdf-link" href="viewer.html?file=pdfs/file3.pdf">
+                Document 3
+                <span>Research paper</span>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

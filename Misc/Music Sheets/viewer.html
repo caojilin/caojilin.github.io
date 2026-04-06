@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1e1e1e;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<iframe id="pdfFrame"></iframe>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const file = params.get("file");
+
+  if (file) {
+    document.getElementById("pdfFrame").src = file;
+  } else {
+    document.body.innerHTML = "<p style='color:white;text-align:center;margin-top:50px;'>No PDF selected</p>";
+  }
+</script>
+
+</body>
+</html>
