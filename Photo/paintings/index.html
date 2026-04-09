@@ -36,44 +36,40 @@
     <script>
       const SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbw7rTym58lsrWbNPtZ17pexMJttIdG6nzzvWtv5XT8zsOsYcxbU4uJ_wtgI8NVQavQQ/exec";
-      const CACHE_KEY = "albumFolders";
-      const CACHE_TIME_KEY = "albumFoldersTimestamp";
-      const CACHE_DURATION = 1000 * 60 * 60; // 1 hour in milliseconds
+      const CACHE_KEY = "paintings";
+      const grid = document.getElementById("album-grid");
 
       function renderFolders(folders) {
-        const grid = document.getElementById("album-grid");
         grid.innerHTML = "";
         folders.forEach((folder) => {
           grid.innerHTML += `
-            <a href="album.html?id=${folder.id}&name=${encodeURIComponent(folder.name)}" class="album-card">
-                <div class="album-title">${folder.name}</div>
-            </a>
-        `;
+        <a href="album.html?id=${folder.id}&name=${encodeURIComponent(folder.name)}" class="album-card">
+            <div class="album-title">${folder.name}</div>
+        </a>
+      `;
         });
       }
 
-      // Check if cached data exists and is still valid
       const cached = localStorage.getItem(CACHE_KEY);
-      const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
-      const now = Date.now();
 
-      if (cached && cachedTime && now - cachedTime < CACHE_DURATION) {
-        // Use cached data
-        const folders = JSON.parse(cached);
-        renderFolders(folders);
-        console.log("Loaded folders from cache:", folders);
+      if (cached) {
+        // 1. Data exists, so render it and STOP. No network request is made.
+        renderFolders(JSON.parse(cached));
+        console.log("Loaded from local storage. Fetch skipped.");
       } else {
-        // Fetch from server
+        // 2. Data does not exist, so show loader and fetch for the first time.
+        grid.innerHTML = '<div class="loader"></div>';
+
         fetch(SCRIPT_URL + "?action=listFolders")
           .then((res) => res.json())
           .then((folders) => {
-            // Save to localStorage
             localStorage.setItem(CACHE_KEY, JSON.stringify(folders));
-            localStorage.setItem(CACHE_TIME_KEY, Date.now());
             renderFolders(folders);
-            console.log("Fetched folders from server:", folders);
           })
-          .catch((err) => console.error("Error fetching folders:", err));
+          .catch((err) => {
+            grid.innerHTML = "<p>Error loading albums.</p>";
+            console.error(err);
+          });
       }
     </script>
   </body>

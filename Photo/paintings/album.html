@@ -36,75 +36,85 @@
     <script>
       const SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbxNwKn_vfLb6wPXpXbIm78Lb-gRloYgaPRV58Eq3Eaoz-7SUi4pX-M5fYTvkChCUry6/exec";
-
+      // 1. Get URL parameters first
       const params = new URLSearchParams(window.location.search);
       const folderId = params.get("id");
       const folderName = params.get("name");
-      const LOCAL_STORAGE_KEY = `albumPhotos_${folderId}`;
 
-      document.getElementById("album-title").innerText = folderName;
+      // 2. Define UI elements
+      const grid = document.getElementById("photo-grid");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const lightboxCaption = document.getElementById("lightbox-caption");
+      const albumTitle = document.getElementById("album-title");
 
       let allPhotos = [];
       let currentIndex = 0;
 
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightbox-img");
-      const lightboxCaption = document.getElementById("lightbox-caption");
+      // 3. Validation and Core Logic
+      if (!folderId) {
+        albumTitle.innerText = "Album Not Found";
+        grid.innerHTML =
+          "<p>No album ID provided. Please return to the gallery and try again.</p>";
+      } else {
+        albumTitle.innerText = folderName || "Album";
+        const LOCAL_STORAGE_KEY = `photos_${folderId}`;
+        const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+        // Initial Render from Cache
+        if (cached) {
+          const photos = JSON.parse(cached);
+          renderPhotos(photos);
+        } else {
+          grid.innerHTML = '<div class="loader"></div>';
+        }
+
+        // Background fetch to update or load
+        fetch(`${SCRIPT_URL}?action=listPhotos&id=${folderId}`)
+          .then((res) => res.json())
+          .then((photos) => {
+            photos.sort((a, b) => a.name.localeCompare(b.name));
+            const freshData = JSON.stringify(photos);
+
+            if (freshData !== cached) {
+              localStorage.setItem(LOCAL_STORAGE_KEY, freshData);
+              renderPhotos(photos);
+            }
+          })
+          .catch((err) => {
+            console.error("Fetch failed:", err);
+            if (!cached) {
+              grid.innerHTML =
+                "<p>Could not load photos. Please check your connection.</p>";
+            }
+          });
+      }
 
       function renderPhotos(photos) {
         allPhotos = photos;
-        const grid = document.getElementById("photo-grid");
         grid.innerHTML = "";
+
+        if (photos.length === 0) {
+          grid.innerHTML = "<p>No photos found in this album.</p>";
+          return;
+        }
 
         photos.forEach((photo, index) => {
           const img = document.createElement("img");
-
-          // Dynamic thumbnail
           img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
           img.alt = photo.name;
-
-          // Retry fallback if high-res fails
           img.onerror = () => {
-            console.warn(
-              `Failed to load thumbnail for ${photo.name}, using smaller size`,
-            );
             img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w500`;
           };
-
           img.onclick = () => openLightbox(index);
           grid.appendChild(img);
 
-          // Preload high-res for lightbox
           const preloader = new Image();
-          preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w2000`;
+          preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
         });
       }
 
-      // Try loading from localStorage
-      const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (cached) {
-        try {
-          const photos = JSON.parse(cached);
-          renderPhotos(photos);
-          console.log("Loaded photos from localStorage");
-        } catch (e) {
-          console.error("Failed to parse cached photos:", e);
-          localStorage.removeItem(LOCAL_STORAGE_KEY);
-        }
-      }
-
-      // Always fetch fresh photos in background
-      fetch(`${SCRIPT_URL}?action=listPhotos&id=${folderId}`)
-        .then((res) => res.json())
-        .then((photos) => {
-          photos.sort((a, b) => a.name.localeCompare(b.name));
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(photos));
-          renderPhotos(photos);
-          console.log("Fetched photos from server and updated cache");
-        })
-        .catch((err) => console.error("Failed to fetch photos:", err));
-
-      // Lightbox functions
+      // --- Lightbox Functions ---
       function openLightbox(index) {
         currentIndex = index;
         updateLightbox();
@@ -119,6 +129,7 @@
       }
 
       function changeImage(step) {
+        if (allPhotos.length === 0) return;
         currentIndex =
           (currentIndex + step + allPhotos.length) % allPhotos.length;
         updateLightbox();
@@ -129,6 +140,7 @@
         document.body.style.overflow = "auto";
       }
 
+      // --- Event Listeners ---
       document.addEventListener("keydown", (e) => {
         if (lightbox.style.display === "flex") {
           if (e.key === "ArrowRight") changeImage(1);
@@ -138,18 +150,27 @@
       });
 
       document.querySelector(".close").onclick = closeLightbox;
-      document.querySelector(".prev").onclick = () => changeImage(-1);
-      document.querySelector(".next").onclick = () => changeImage(1);
+      document.querySelector(".prev").onclick = (e) => {
+        e.stopPropagation();
+        changeImage(-1);
+      };
+      document.querySelector(".next").onclick = (e) => {
+        e.stopPropagation();
+        changeImage(1);
+      };
 
       lightbox.onclick = (e) => {
-        // Don't trigger navigation if they specifically clicked the close button
-        if (e.target.classList.contains("close")) return;
+        if (
+          e.target.classList.contains("close") ||
+          e.target.classList.contains("prev") ||
+          e.target.classList.contains("next")
+        )
+          return;
 
-        // Check where the user clicked horizontally
         if (e.clientX < window.innerWidth / 2) {
-          changeImage(-1); // Left half of the screen
+          changeImage(-1);
         } else {
-          changeImage(1); // Right half of the screen
+          changeImage(1);
         }
       };
     </script>
