@@ -1,10 +1,24 @@
 /* General Styles */
+* {
+  box-sizing: border-box;
+}
+
 .container {
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.header {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  text-align: center; /* Center text for better readability */
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin: 15px 0;
+  line-height: 1.3;
 }
 
 .href-black {
@@ -18,10 +32,11 @@
 a {
   color: rgb(49, 210, 183);
   text-decoration: none;
+  vertical-align: middle;
 }
 
 a:hover {
-  color: #1479be;
+  color: black;
 }
 
 .row1 {
@@ -30,35 +45,45 @@ a:hover {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  /* Adjustments for tablets and smaller screens */
   h1 {
-    font-size: 2rem; /* Use relative units (rem) for scalability */
+    font-size: 2rem;
   }
 
   h2 {
-    font-size: 1.5rem; /* Use relative units (rem) for scalability */
+    font-size: 1.4rem;
+    margin: 10px 0;
+  }
+
+  h3 {
+    font-size: 1.3rem;
   }
 
   .row1 {
-    margin-top: -20px; /* Adjust margin for smaller screens */
+    margin-top: -10px;
   }
 }
 
 @media (max-width: 480px) {
-  /* Adjustments for mobile phones */
   h1 {
-    font-size: 1.5rem; /* Further reduce font size for mobile */
+    font-size: 1.8rem;
+    margin-bottom: 10px;
   }
 
   h2 {
-    font-size: 1.2rem; /* Further reduce font size for mobile */
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  h3 {
+    font-size: 1.15rem;
   }
 
   .row1 {
-    margin-top: -10px; /* Further adjust margin for mobile */
+    margin-top: 0;
   }
 
-  .container {
-    padding: 0 10px; /* Add padding to prevent content from touching the edges */
+  .row1 h2 a {
+    padding: 10px 5px;
+    display: inline-block;
   }
 }

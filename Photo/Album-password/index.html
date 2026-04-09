@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <title>Photos - Cao Jilin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <link rel="stylesheet" type="text/css" href="../../global.style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,14 +22,11 @@
     </div>
 
     <div class="container">
-      <div class="row1">
-        <div class="verse">
           <h3>
             <a href="../../Photo/index.html" class="href-blue"
               >&larr; Back to</a
             >
           </h3>
-        </div>
 
         <div class="album-grid" id="album-grid"></div>
       </div>
@@ -43,8 +41,10 @@
         grid.innerHTML = "";
         folders.forEach((folder) => {
           grid.innerHTML += `
-        <a href="album.html?id=${folder.id}&name=${encodeURIComponent(folder.name)}" class="album-card">
-            <div class="album-title">${folder.name}</div>
+        <a href="album.html?id=${folder.id}&name=${encodeURIComponent(
+          folder.name,
+        )}" class="album-card">
+          <div class="album-title">${folder.name}</div>
         </a>
       `;
         });
@@ -53,13 +53,9 @@
       const cached = localStorage.getItem(CACHE_KEY);
 
       if (cached) {
-        // 1. Data exists, so render it and STOP. No network request is made.
         renderFolders(JSON.parse(cached));
         console.log("Loaded from local storage. Fetch skipped.");
       } else {
-        // 2. Data does not exist, so show loader and fetch for the first time.
-        grid.innerHTML = '<div class="loader"></div>';
-
         fetch(SCRIPT_URL + "?action=listFolders")
           .then((res) => res.json())
           .then((folders) => {

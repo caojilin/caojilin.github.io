@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <title>Album | Cao Jilin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <link rel="stylesheet" type="text/css" href="../../global.style.css" />
   </head>
 
   <body>
@@ -12,7 +13,7 @@
       <h1><a class="href-black" href="../index.html">Cao Jilin</a></h1>
       <h2 id="album-title">Loading...</h2>
       <p>
-        <a href="../album-password/index.html" class="href-blue"
+        <a href="../Album-password/index.html" class="href-blue"
           >&larr; Back to Albums</a
         >
       </p>
@@ -61,8 +62,6 @@
         if (cached) {
           const photos = JSON.parse(cached);
           renderPhotos(photos);
-        } else {
-          grid.innerHTML = '<div class="loader"></div>';
         }
 
         // Background fetch to update or load

@@ -1,155 +1,172 @@
-/* General Styles */
-.container {
+/* --- 3. Gallery Grid (For paintings/index.html) --- */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+  margin-top: 20px;
+  align-items: start; /* Keeps cards aligned to the top */
+}
+
+.album-card {
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  color: #000;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.album-card img {
+  width: 100%;
+  height: auto; /* Shows the full image */
+  display: block;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fcfcfc;
+}
+
+.album-title {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* --- 4. Photo Grid (For album.html) --- */
+.google-photos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.google-photos-grid img {
+  height: 250px; /* Consistent row height */
+  flex-grow: 1;
+  object-fit: contain; /* Ensures photo isn't cropped in the row */
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: transform 0.2s;
+}
+
+.google-photos-grid::after {
+  content: "";
+  flex-grow: 1000;
+}
+
+/* --- 5. Lightbox --- */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center; /* Center text for better readability */
 }
 
-.href-black {
-  color: black;
+.lightbox-content {
+  max-width: 95vw;
+  max-height: 85vh;
+  object-fit: contain;
 }
 
-.href-blue {
-  color: #1479be;
+.lightbox-caption {
+  color: #ccc;
+  margin-top: 15px;
+  font-size: 0.9rem;
 }
 
-a {
-  color: rgb(49, 210, 183);
-  text-decoration: none;
+.close,
+.prev,
+.next {
+  position: absolute;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-a:hover {
-  color: black;
+.close {
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+}
+.prev {
+  left: 10px;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  transform: translateY(-50%);
+}
+.next {
+  right: 10px;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  transform: translateY(-50%);
 }
 
-.row1 {
-  margin-top: -30px;
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.verse {
-  margin-top: 30px;
-}
-
-.freehand-regular {
-  font-family: "Freehand", cursive;
-  font-weight: 400;
-  font-size: 18px;
-  font-style: normal;
-}
-
-/* Responsive Styles */
+/* --- 7. Mobile Responsiveness --- */
 @media (max-width: 768px) {
-  /* Adjustments for tablets and smaller screens */
   h1 {
-    font-size: 2rem; /* Use relative units (rem) for scalability */
+    font-size: 1.8rem;
   }
-
-  h2 {
-    font-size: 1.5rem; /* Use relative units (rem) for scalability */
-  }
-
-  h3 {
-    font-size: 1.2rem; /* Adjust h3 font size for smaller screens */
-  }
-
-  .row1 {
-    margin-top: -20px; /* Adjust margin for smaller screens */
+  .google-photos-grid img {
+    height: 200px;
   }
 }
 
 @media (max-width: 480px) {
-  /* Adjustments for mobile phones */
-  h1 {
-    font-size: 1.5rem; /* Further reduce font size for mobile */
-  }
-
-  h2 {
-    font-size: 1.2rem; /* Further reduce font size for mobile */
-  }
-
-  h3 {
-    font-size: 1rem; /* Further reduce h3 font size for mobile */
-  }
-
-  .row1 {
-    margin-top: -10px; /* Further adjust margin for mobile */
-  }
-
   .container {
-    padding: 0 10px; /* Add padding to prevent content from touching the edges */
+    padding: 10px;
   }
-
-  .freehand-regular {
-    font-size: 16px; /* Adjust font size for better readability on mobile */
+  .album-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .album-card img {
+    height: auto;
+  }
+  .google-photos-grid img {
+    height: 160px;
+    flex-basis: calc(50% - 10px);
   }
 }
 
-.modal-overlay {
-    display: none; 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-overlay.active {
-    display: flex;
-  }
-
-  .modal-content {
-    background: white;
-    padding: 40px 30px 30px 30px;
-    border-radius: 12px;
-    text-align: center;
-    position: relative; /* Needed to anchor the 'X' */
-    min-width: 280px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-
-  .close-x {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #888;
-    line-height: 1;
-  }
-
-  .close-x:hover {
-    color: #333;
-  }
-
-  #pwd-input {
-    width: 80%;
-    padding: 10px;
-    margin: 15px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-
-  #submit-btn {
-    padding: 10px 25px;
-    background-color: #21c46a;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  #submit-btn:disabled {
-    background-color: #ccc;
-  }
-
-  /* This makes a regular text input look like a password field */
-.mask-password {
-  -webkit-text-security: disc;
-  text-security: disc;
+/* When loading, override grid completely */
+#album-grid.loading {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
 }
