@@ -1,47 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Carpe Diem</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Viewport meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Freehand&display=swap" rel="stylesheet" />
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Freehand&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Adding a basic hide/show class just in case your style.css doesn't have it */
+      .modal-overlay {
+        display: none;
+      }
+      .modal-overlay.active {
+        display: flex;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
     <div class="container header">
-        <h1>
-            <a class="href-black" href="../index.html">Cao Jilin</a>
-        </h1>
-        <div class="container">
-            <div class="row1">
-                <h2>
-                    <strong>
-                        <a href="../P5/index.html">P5 js</a>
-                        |
-                        <a href="../About/index.html">About</a>
-                        |
-                        <a href="../Misc/index.html">Misc.</a>
-                        |
-                        <a class="href-black" href="../Photo/index.html">Photo</a>
-                    </strong>
-                </h2>
-            </div>
+      <h1>
+        <a class="href-black" href="../index.html">Cao Jilin</a>
+      </h1>
+      <div class="container">
+        <div class="row1">
+          <h2>
+            <strong>
+              <a href="../P5/index.html">P5 js</a>
+              |
+              <a href="../About/index.html">About</a>
+              |
+              <a href="../Misc/index.html">Misc.</a>
+              |
+              <a class="href-black" href="../Photo/index.html">Photo</a>
+            </strong>
+          </h2>
         </div>
+      </div>
     </div>
 
     <div class="container">
-        <h3>
-            <a style="color: #21c46a" href="paintings/index.html">Paintings</a>
-        </h3>
-        <h3>
-            <a style="color: #21c46a" href="album/index.html">Album</a>
-        </h3>
-
+      <h3>
+        <a style="color: #21c46a" href="paintings/index.html">Paintings</a>
+      </h3>
+      <h3>
+        <a style="color: #21c46a" href="#" id="album-link">Album</a>
+      </h3>
+      <h3>
+        <a style="color: #21c46a" href="Photography/index.html">Photography</a>
+      </h3>
     </div>
-</body>
 
+    <div id="pwd-modal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="close-x" id="close-x">&times;</span>
+        <h3>Enter Password</h3>
+        <input
+          type="text"
+          id="pwd-input"
+          class="mask-password"
+          placeholder="Password..."
+          autocomplete="off"
+        />
+
+        <div id="msg-box" style="margin-top: 10px; font-size: 0.9rem"></div>
+
+        <div id="modal-actions" style="margin-top: 15px">
+          <button id="submit-btn">Enter</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzFPa7graR1Wg6dsO1ESNvaUFa85gMfjvO_9WzDhPy1IPLVx95u7tJZkgjjKTLegUs/exec";
+
+      const modal = document.getElementById("pwd-modal");
+      const albumLink = document.getElementById("album-link");
+      const closeX = document.getElementById("close-x");
+      const submitBtn = document.getElementById("submit-btn");
+      const pwdInput = document.getElementById("pwd-input");
+      const msgBox = document.getElementById("msg-box");
+
+      albumLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.classList.add("active");
+        pwdInput.value = "";
+        msgBox.innerText = "";
+      });
+
+      // Close with the X
+      closeX.onclick = () => modal.classList.remove("active");
+
+      // Also close if they click the dark background area
+      window.onclick = (event) => {
+        if (event.target == modal) {
+          modal.classList.remove("active");
+        }
+      };
+
+      submitBtn.addEventListener("click", async () => {
+        const pwd = pwdInput.value;
+        if (!pwd) {
+          msgBox.style.color = "orange";
+          msgBox.innerText = "Please enter a password.";
+          return;
+        }
+
+        msgBox.style.color = "#21c46a";
+        msgBox.innerText = "Checking... please wait.";
+        submitBtn.disabled = true;
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `pwd=${encodeURIComponent(pwd)}`,
+          });
+
+          const data = await response.json();
+
+          if (data.url) {
+            msgBox.innerText = "Success! Redirecting...";
+            window.location.href = data.url;
+          } else {
+            msgBox.style.color = "red";
+            msgBox.innerText = data.error || "Wrong password. Try again.";
+          }
+        } catch (err) {
+          msgBox.style.color = "red";
+          msgBox.innerText = "Connection failed.";
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    </script>
+  </body>
 </html>

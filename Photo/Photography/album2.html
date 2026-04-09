@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Album | Cao Jilin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1><a class="href-black" href="../index.html">Cao Jilin</a></h1>
+      <h2 id="album-title">Alex Webb - The Suffering of Light</h2>
+      <p>
+        <a href="../Photography/index.html" class="href-blue"
+          >&larr; Back to Albums</a
+        >
+      </p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="google-photos-grid" id="photo-grid"></div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+      <span class="close">&times;</span>
+      <span class="prev">&#10094;</span>
+      <img id="lightbox-img" class="lightbox-content" />
+      <span class="next">&#10095;</span>
+    </div>
+
+    <script>
+      // ========================
+      // Data
+      // ========================
+      const imageUrls = [
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikCsdFDi9-lms3D5heahfFnkUZ2UnEHG9haQ6Bp8PWYylyIH_jfG8Zyh0QJtwbVv4qWwqTrcAeGNqrWqeqwjloiTb16TZVTl-xOt0nQcMjFDguvsqnDIpma6t5dMIwVYNvkxRd8do_2L9xn5Pf1Tmgxr79aXYxN7IYJHlNFxRtg9HUjwulB291utGV/s1980/PAR115722.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgUUCYLWCS26Pe3oXUO3uuj2ir2lV1QmYKHFoWPwEwtrNFMYZRpzYK944NKzv0ni2UFBlizJoRyrjIpXnOqo8L_IO8s2sp3USlDUBOYi1KuJdtYTzbYybFcwK_Brx79b7a8wy-A3gvSX9BytdBhXEL0TgumoBgfmNP31gXGCUd7zbMgapzCrnbEDo4C/s1980/PAR112991.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhX33nhw85-qTKhee4SPnGslfxrh0hLP5OUAfo9MNdkqtJbh4glNOqAMXH0VifSW0h43V-bzyUbTnIyJeFJhdUyJ2HNfh3aVndSiKTFRsHiKaZzTEYcQ-tU2lBNQKAXDws5nk1x-iKdGlzEbYs9fFxg3VentxsAduwg8BhVuoMxntkOcrsnQea6KhmA/s1980/PAR112803.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiF3ofDu_ZmdPscZsi_Q_04snd2tSOuxdQCQKBw45iVhrh8YJ3V7kJl8u2a6WDdzTB0x5hZeHoBmbrdiFUeRhbmhXYdWR3SSFTIg1lILRcsm0a_AAf-MyW5eMi4SILcdf-bcjCGjRQwQFjLa57m0yewBFF66wjVGvKFWRZDh9ru6owwOzNHz4reB4jh/s1980/PAR112760.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhIcydQJsZN1k_PUQ4bLkRFsPfIQvxk2Fv8BJq2wo69DNm6l64L97PcwxLPm_GUNZOhzzrf9zEVnxJltczG1W3gcBn92glxmAHlERM9qEr1Nebk9I7ZaX3eyyrfkhBoR1fvUmjn6QGo_VEXcVpHptAzfYwRgQ_htxFv57-RmIV86ppMqZ_y3eF8wAQ7/s1980/PAR112756.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp0sCNxmOHOYvyYekE89KnmcdME_nVi5eqpf_1K4iJuNtQ7X8jzKoCpwwKXg1jBOjzQIJsaUvUFbUeDfKqo4iybmjnCmsEiI2X180_OV9w4xXYZcO9e03SydMEkQ0wXmISLl69vh6CEOrdh38fT9YkZwXsVUzpU_txkI0x3xwKCROf-GHhbfvyjUzN/s1980/PAR112755.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQEwQGV92NXsYJWSTIInwQVTmSMdP4YQZSI7ivdw0kmvdCUPGIzv51oz9lzPluS35un7c_lADMOAx2B5B_1Nt3rcYcILQrwwBTWNvcaF_zVKDsJeM2WMqH_yUDVcMxRJyiWg7aPbecljpNJ9qJ7d_rVtjr5KKp9T1hDVYzFa5WIjRLty5oRc9ygzU9/s1980/PAR112715.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhc-KmJk6lnAsfrgPaApNcSheI7zFIkmigrVu7eGQnwTvECLpMIra4dZWv7mt8qiW4JLum-J6W1I4BEDFj39EGmMLPp3YbX3QqhLxUfDvlI1_BVinMeaBXPcq_mnAVdZcIPZ9B9xo37FheBlO9tXEMOd62Adr0YbX5pr83fetY-xVhp3p3o1AZLZMO9/s1980/PAR112679.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjehqVkm8AYNcgCQqdfTHiADh88SnEScj8Wv2A2GMG9q0HxiqO3Yif7ON4-UfqtR8Nx-aJq7pIjYhBq0DXa_pMi_kUBqkvvkQ85qOEuoMlVO1Zuv6OPv5bpODZ4vk4bI4l7UZGmHHSVOYbgQCoO9-5XQ_OGjdY5hbiSOJNgMWVOUcefQraWrZwj3P2z/s1980/PAR112669.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhmLI6OBn02dlwHAsCQgGmt7fJvCM-DNMZSu_TfHdtvtpR3w_jU_HjddFGQim2-yHsTJ1rdgimSQGsL95fY2EiUqDRw2NT9_wlFd-QmFhIDE-bKC_VahnXr77RdigIut7l3BEp_NdLTbdDUNWs7adVfUDQqGh4yFMMwjRHfYUuE-pYe-U2rT3Eio5oC/s1980/PAR112668.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiF2EVCbMY2I33WXXaPPpjOPdEjW_hIFvV4DUnn2NRMMMEHfqgVYnBeAbgyqasLrTD6Y_ts-KGNDk2oU5-mmsdZOVg7oqQJgEx2UymnaRCViK2_bxMYnFxlBEtn82u1gd-nEZUDE8TV8l2qxx6-F7MLGaJTBS3OlFLHYa4IG2lZdwXvGKlMFVMSl8iW/s1980/PAR112630.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFZWmmizqmulIe6xECimZ4-G-C30DRzTr0tHISKO0YzNmzPatRZnpDTnl3y4udPguC_M2Opjy0Z8kj-o0PCm8zR6q9MK1Qc0Gd9Weuwc1DNICzhBm5t8fuYhA4GUbe6FzRmWlonnOEW-d7cFsOOYwZXSiLvby9QcmnTDdHfYhiIVyVjxkyHkQNxXRK/s1980/PAR112617.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJhtAWCKCWuhR_yNkg2fy84W1g33ym-IfKCmg2MmHsjl_dGdhnPNTfai6_nLdEC7x2NHMNef81LnkWjGZ71vYkaJVKrnYHb3tgBv_7vTysWXhT_-sToa4FIdE-7aH7jCWwaDGI9z41As91kpELX5nouSy3dkX0DQs5EkQg-rNiRYygZ_Y9w04yUIUr/s1980/PAR112593.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjGs-Yh2uiHQo6rS-DVdpw9s-Nt1F37udzlQbUeXlsVr6KbtannuM3z2Yj-EkDyg3K1Erb7TeO_ETcvGiER6TZ49ggDJc6DCbc398hxl2b8WY1ptkEz23gLuCZjNyECdgTPaWXgjCQlbyaDG9U1dUkQyo0mXsSvJxMr4Kcr0gaJuerCmpfbtJqQLNWg/s1980/PAR112592.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiCHxlAmlXZmd2RlANYgbydQUqlOcegm59CwIuPhiPqtjzuuByF45GaukHMJ587HYC6JfBUnFM2SGIf77pDI-WH3ULv7HBnusf_hdp9kIRnXN5FwsKZOIn_BnJvXML5Rj0oHb8HOT4RJJx1Qt3PiAgeqsDVbPk2ru4ReZQScVwNK4jPLBN6SZvujju5/s1980/PAR112577.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvSo10frS_OE_3GKkFJZ1HUX2InbgWhuf9Du36pd9twsydu-bOKAln7m-Br8ZBSxnBQsiP4c1lmRzly5-RBI-rt13ICBYoKRthQsaXsuWaiOCduHtDwysPGnAq6k2Y4eCgJ4FcvYCRzctL7XWXU0N9KnCyCdqBg3qdMHBAgu7FBvXfIJ0HwPmFeMQk/s1980/PAR112568.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEBJ4pAfUepX9u_A3dJkRic8sR-WRr70uh5BpMBvn8rA7LM0IePpJc_S9THEBFF1dJxaOTUOwmiZK4NaNka9hFz4C65jwNSLs9EYM5V1riVH2VeGlbHVTxYKfSZMB2rapkGXpIexmCfmURUC7fYGWPXfW7vBY3XcdlZ7c-f8VP3nEb-4aEZbv8vPgO/s1980/PAR112552.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicGJIvV0DmAwpNNxk8vu9904u8mX9OC_b76pG8paYgpen_Zkw_ba4odq6xwBsxokJVmgE5U0rZthNErfENTlPPIjc_d_xwgmUSfATJqvVMK73qZFiwZTP1wqzFUCx4bEtkZaoasMwVI2A_iLlwH6OY1DwDrENyDivb2iA2j4VlPWsFyE-JEzVrO9y7/s1980/PAR112545.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicjYdmgTds-usI9mTaCto_FCiVd6_5EJwRTV5DigBAT6UTXUQGsFv3punwv3aHDBo5BdJ5AS9zITQruDgYhLsUe5fdKudcd6KaPFAghXfxfFbtixVwIHkJZNanmJsG_0vVqh3FQ87IxfJEAm2HzP-0PpQYFHAEI-000kSYtV-6C1TXeoASw_-O9SrA/s1980/PAR112535.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbFePJHjesEFYX7vlB2Yjh__onaIiWnl608ODkgwb2Q8c2iVNula34M6npI179EV4xhUtbfLitkka-nOXxxB-OX7ZQmNAFhHmXjkzWlv4nGNsEMypsDtuEobXY5SD3wz0fAUlwi22nhPgEanGTgBSpdLlMyo82OfcJCSiy5z4DY4f8ggX0hNidW9Ht/s1980/PAR112518.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJvw5EmLFPbf3wRblLwbtiWrEeKJC_NLbVCxE09ktxGl-xAyn9veOqcpGUKD2V0wm182zBa2CAUCnZjXqPVYHdoSWR2zk1wiBeiNwMxxYIAwXAwwJy8KFLV99CzwWxVUsPoJik326nr9vj9CSXeKTdzDjmAp0f6a-8p6tCelFpnCQzSALq2LcpYV3R/s1980/PAR112515.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqn5paqZ85YpyuwvKRnQTABEEi7sUrh9W9NQu3anoL0Uaimf2j37tYFct3_I4QPAKlI65PBZxt5eDzbOCf0gwfpVU5aRhkeuYobJBdNTWg5eT8NAwD9iRlViqrNk5-whxzfQbGS5DPazzp6c7QRvSRepHl7n8vSp5SOjeGQ_DS24MeZLLk9XcY7h6C/s1980/PAR112510.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiZn0mX286zbErrWusfdmaDMh82i0QDy-WjjuS40A3l0XHi9hk5ILYf_63UcmC2wyKnO7A8ysH_J1IxZPdMNx9FrsnPbvqDTIBcYeNoeTrOeqUaS1P0mHzFikPk_JerDT84ezlbl9qsYyJeYjihwXtzfWsDru4WcuTHJpaLgDkSUbTtx16qPkhr1VL/s1980/PAR112509.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiR8QEh1PwXw1wMfeaqcwem5ZSoZ6H7uakXwQ4cXnWgSl1qQVQYcezkYvaoRBarKxJ2o9qqtU1WGJ9pgWYMDCeW8Cj14kyd7o__cRTD7fOe-3M-X4bCP9scj3J8DBaTqCFKJOBTTqunOq4-VsnYHKA3FqzCLrEZfuzWerhjk7IFmzLvB7uv-fF6hvwB/s1980/PAR112498.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg48PLgZ9x3-h9hwA4YtAElX0SHITB6ZWNsa7ftsIbll_lrKCDeiU27JNKowcfp7_xbpyxvQk2sw7SphfHPOFAtCLSGQs9bKPqm3K9qE7djblHToSpkRla3r7dIsaWcg1Zu-d5IFe1rQYtH12vToFtssPgY9l48coYs1LscVbV6HIZVoo0LOAkJXrM1/s1980/PAR112496.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBy7UrJyJ0zB9ACKxi5FQ40OMg9hi3Id58ikUvfp9Xv0jN7Pma7-Zh3n5QHiI8VRWMfiRdWaSdNyAAYHrMbRR9LAn1C_gj_mzXbnsvDCcIBSHMO0kZWWD-SotWl-Z8WEQKJlHaYZUydkHpM8RCBktDoOZw_fZuuroKRa_K_G53Gif7DYMy-FMupZGo/s1980/PAR112487.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2qEsqWiYV36UhC3tIyBHjeuL3Z-Cqzf6vr96ANqTNcaSHbU2k6Oqbp5uTotSoxoq1y6EgQcbcLb3SlWmw_heu1kop81Y5kNvxBj3nAbuZNuTznKhP2Os6SG8ku5e-lx84x5GAx-HRBgeDE_Mv0dslmnJXu-GJ1-FcrNxh-Ar-JXkKASJIH4RFvxlA/s1980/PAR112482.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijvsRmhu9s0q-SBy2VqgJ4mevfmkTXCeac35sUHNQer6pO_XKsGhSHzl421Uu4BJL61xP-7XRjKDG6j4TBkTLMUjDRtfflTi_E3vhyphenhyphen0SiZHz7T59hEbrg5Re1U3fHwTTSnmMH1yFy3Qsxn0TkFr0lgY7kv17qcVELTDjqDNEfQilCJ4WKvfu21adDf/s1980/PAR112469.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiqwU8dLuiU6TT9h4DeXK0Lgs8rD1tJq0qhf7GYzbJMu1RgGeG2gt_q6Phz0v9Yh16Ty_XQsklCdaeXBQcpBxaeid2UufyapaxPkX5AeUipy6RrhJlkThB56z_0OSG5WU-i108aHCcw_Xg0bWVj8UFO3mn0CNVLfZbueUUzFBLv5WNq-YM_3nafg7Tp/s1980/PAR112447.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi92Huklmw43Aqaff01Y9lgyT_zy0PBKykMoSlXnp-sJK9x7FwdTF1bas06rEbtRNa5IeG5Hi0vzv2DlVqYlwIy8rs1klJJRUSyO2zLyHPcuhcUvQ6qz4QhG5Ff0x0TxDN1k59ecalAwFg6uDPOU4Uzb1m7XgfILiCfxc__4MvWaOoLtajeC55Bq5ad/s1980/PAR112440.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHXJwcnL5AJybn5YFFqTkoRyQRl6vz4BCFdrmVjS7Jxz-6fY7mUClBmtmzDwW4z2W2k6V-dg4YI6IPeofoTChcvQQFx_1DXK2immG-aQYUbbyoBBKYmnsiNPit-qWfs3aXSIZD4VTYCXf8bOVXmOb593V6fZlLuXiisbM1iym7_UnssmeyTosaipzQ/s1980/PAR112405.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlrFEY_G0ICnosbUoYFKq64i_tysjN3lczk16X-SYnthSH0t1ASbICC97erTnt-GL-M7C3gOVXIPZJEO6mSIB-KlReL4WKSVecvCdmSPl5FtW9VsaWSOSAeEr1fb_CECJWPpDXQmH56lBobwvnRLgCkfXJ_uitGdn-AISDB9t645WuX2rMAHD1DW-U/s1980/PAR112403.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQK5qQUQTbe-3xYkQMDa21x5PXuD1KAkXWn0QSywWS8ZCISOu4izNguMxyJOtOiXsfZOLqyOkXCtZLAYShUaTe8G3XmKKv8OpDGZgTkZgPP6xfQjpctJ6yKi4kgVz5Y8Rl3Usku4b2CxeMhpRLNn6BbC0d5hpJrrRCwzegCVatqm7MKj1IF-TfniCo/s1980/PAR112370.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHj4x1HSnZTEmMnOoA0OCORPHucLU5lIapVHfMebd0yDTgLeBCf7bo9wA5D_C0cd6P90zKx7layWgftlZWJDekuqMJr5m0BkJ_f5oFNF9TtjCT5cGi8nnted8vH8kmCQrtqSXiP3Wy-9A1euJcXz-uSrkN-OCsufpIm5Z3hFaWDeTYKMOxXsRbyCq6/s1980/PAR112330.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3yyuzMqKshUMHVBy6CENUxfw7EPHghQYlpuUdYuXtZuYb2cTirpv4mPCf3b33Q1gRmRW8R0JAsTrw6StjgcG2NPZZ_TxRjkA57b-kACESH5zW9V5QtQCR-LRF1IJQeWh5Lo0tFWl6Zv4wMnetaESRClSe1wheieks9kkRC-lTlUkD8ZtUlnQPfpMt/s1980/PAR59517.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1fNtXgLaIsZspxNdlETwrADO-SkclCrHZiNUA_CId0FcCRuOsKT-cJItIzsPjfvpdS1vG3NFzYaHw08V07WhYWvlfly09Je6ZLUmZlLCCYt3saqVqpHEsTgD9OR4MMUwklVnWfzZO1nRusjM5A4Wcx16vz_aF6PBmWiwVb4nRghCG2n8r6zJ5hjBQ/s1980/PAR59515.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiv1PZIOeV__uP3A0E_HLOi53Y7OEJrjDWk6KZ-JTrolRklThv49JSYtBmFqRsGI52oO_wh5AL2AgE2ZZyKRNb-FDI0EGd72YR_uVgYXlKol7_Zr0KmLR_slB2cpcwZE0zP6RvrMSHVPGgUAWnxHwstsoVSzREjFJs0o3WlrbOaDnlrRdpYwviQrPRD/s1980/PAR59509.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhm4WsI25G4nOmVfxWdlHMJhEYaDJkK8NaG3DnU0op9xz36tYcJP4VtFAb5LRGM0G4NZjTJLCoPf6afKMVlglLsc86unBEblwxRa5gu3NuqL2V-IJ9GU6K7nBq7Nu3NfOlV_0jvqeb9h4XeC2TSIF_DXiW3FiXfAvr9Rg9_HJO9t0zSoNe7w4GfENq6/s1980/PAR59506.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhGWbJDaelLAmVlMnY4i5Me0R0sUtuW4X9qKx7EOAgrQ6bEIGDUOK0zd8go7-sM6tQplxpes2YbNKfaEW_zqt3yHLWbjNcjKtqmTQB4DesXk48Mh6GktDJhcijlKvgC8BOX_TP5WyPqAVQJe2owAIvD7TALeHbmeR2X2axg81pXtMSIRp8Mxxqx5d_1/s1980/PAR58963.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjHTmmoimo1ZdNc1S1o5Y5FNIPLjhFRJC6MlR-5yob4577FkrRJajX927LpGUlaa8Le7LuzrOA9ArMtBLRv7ZVGiezr9oWJKJN9ZHSYu614BBZOncJ_H-UyBmfk4o0dX-gP6Rhz8Lkh59hOChjWauuROvGX04kuj9d3W-M1mB008U9sJOgSWCMylzcT/s1980/PAR58954.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhg2eD-w7V7qHdZM2JfyV6HjMtQcTQiH762IE74ZZ1Hi93qJQ-Y6l-JZO3a5ACBAcq6kmpjf6q6WCyYTZheZ7hI-SNgjnZHFL584xNQIOwdH9TmALrjN1ih9AmRsl141m7xb_JYABUzMoFhgBIidSU952G-rTJrjNoEZxfT34BUX1sP4PeytZ4ICkmU/s1980/NYC106848.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi21UkegU3IcrTrsZD1xxVUVZOWaQRJS76tl1NGOckgz_NCSZ9UBAo-AdOGxnbeG8flbNywa3qLuS4W33XQEkw55UvwDdppFAUyMFAGCEP-1dg-vcy4ZnlhMet7toC5Wotiufrt_tQlWDy-xmBTcUUEOc2zRjQ-RDkiD56dFP-Ny_Zl44y2CUyjU_16/s1980/NYC106770.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpXjSeo808GgvOL9-sJz2Dh461rhfjbUs3UuH67vEM2l8U9TRfBUK0evTzy-VQrD-To4NolA95PlvfShCLwGHPlIPXryH8fMP2Ry_JZShnSK_h5YtJAh3TaAhXJGzPuq2Mxl1v5LrXjjn71cYsgUX0QF2h6Y3qGIYjuobvydOXqMo2vzmaplM-qLvS/s1980/NYC81366.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJ8hDjmwVLZjrtew-JIhpX6FHGVBd9Ixdchxs3fvZ8HWzD21yMUB7_lk9zgyUbj3R4T4ETtUl25qb9O_xECUqMOOCgb1R_U2rb66mBR-VG7D5H6gXq_cyIOZ3A8aj39H44ERF6K_fOk1qGf-_EorrdTpBokgY1nRiLvT3hjeEt472qFaYiqvxe8e15/s1980/NYC79470.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzlmubP-J9g9k1s-gLIeEsTbRJwmBrEM6-8pAPlcBs0ChVeESD5zOZz7fGPTEik3OTKTDFc5QHl2cjUZvAO1VBrN62cjfu6_1waBGfG9ZcNCZfOr5wBgiJMLu1_1fdlHb3R1d-bWpvI3vPWsfg7dGXW38n4b3snCOnBzfh4tE9N-4gdUdZWxZKQNNZ/s1980/NYC79456.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiMU5M6PuWDkygl5pbpg45c73oBjQsEmsrh10Ej0wPgRmi2IYFs57P7S7xTtlsaY-vM24Fe-0df63F3k3lCvUCsOpVbJYSavMSYhomcQ0vbHK6umyu5Dn8uGTuXZq8CnzPEgTDYKVNP3kc2yJHFU4fgXXaSpDt7TKgCJNMryoMdppYfWVx3aau5BxDd/s1980/NYC73804.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg33sOw_oc0nBevSxuK2gtoS7SnG_XZYUY0ZARJcwqvE3S1KMmOg-lskPmtj_byvz1HDkn9BYZCS8W-aVLAdRNWOhphFp0lLoQcf8DIDFlH5SN6sP9WjOspq3o-Tax2GsFarzp2yXADxCXl1SCzBRL5uauLU7wHp4z4v6u8qtgcX1HiVKd8cYdyqO39/s1980/NYC67672.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjGEY8MVwxlDpMCnZFrqKeZdi-rn2Lfo15OK6Mj9Lg5-w7PvAOVEI6p9svkm4c00fYqx6f9xHPrVagx5D9s2DH6OUSTua-smQJ5QvnMfauh47j5UM5mmqQ7BPV6UcHQGhyUa3rwmHMeos6q-nA64Sy8RJUt5x66IqzV3xLEaqqa830lbUGvPKHnlhf3/s1980/NYC66201.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifbJ0UP-2MJ7Ibk9Q8ctgGu8742Awln22ODnzONkGFVQq8KSorPi88qlc4FW5YjeOZhYaXd1UksMy3VLG8sriMqbPGZArKW9u57_Kb-ny43xcMaUCU5UK9KS1kndtZl9a_Zp34Z3SFUokamAXpL03d1I-6hRNygT4MEHzNCmyiyIN-dVl7AOpACfOT/s1980/NYC46861.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyq6Qb_DoaRonPXNxMsO9BolViIsrulYOFsPAym0gFfXQe2P93ERVhnvLyFJA_r5mRrep3NvNT_LIPVWs3niz7hPTQFdtRVmIAOQJKYxm-oZTkXw8MK4MeaOMd7yw51UZ8ihPDH0SawpVOQNCZ7tIRlLToS8BSKNFJX4uASGut5Pp6I6Fh5U4fluWE/s1980/NYC40785.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWcsq9WdUj71MH8xOvpRVM283ic-K9HdYqUN5kgttgEtFEOenC2pBN16aZSfp6pAWO98mI_7pspTNaQ8aly7-vOd3aK8QUw85QC-DBiJHdUkzUd8giONf_LWzp28sXo3mPykUphOms_3xvXL4FG_FmCgvy1BQCldXoqcwgeKv-yT44CLFY3V8l4LRJ/s1980/NYC38827.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8xMUY2yRQHJgPC6jYcyoXWlHeL1ZoTzCtp1rdsJe-TTIobnVr40YDTXNLwby1OcCJteCq3Bw9RwC4JH7-by_MQMLt9Kz0pdyo95eWvi42uiYwmXllX1FzqRL-FvgbRjUQzrSF_6Ixot_GqytRP2P1Y9JR0dB09M0QJG9k7oIXiWwLgdCJNr-sHWK7/s1980/NYC36664.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6HzzVkYpXaj0fCAdiDwyiCQrjB7kmSnIKshyMZ-ZEsT9NwUGQUu_RBicAdzxnSXRhX0vzoNgzyhKTB7WTgThr-95ToU3YlKn6ZmszGxLV3hxtvosjPBBoIChoL7Y63JhPXjv1XEQaQYpCCO5c-Zroa98x6KTxPjDJEhGyZGKRUYHyHjtBLKrd5E1h/s1980/NYC32236.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiV-bV56saRuHgy-D6lSF4qm_-MEfjPWndX8FkWEit6WY_LkANV92UDHnbGmWTIVZsGrQcdoCnA3b2WtcB1uvK7WUd12CNubmuCvGI_9wDu8LeIEmNQ_cpajn7JLwjSiKnBqEPcObT1azi5TyfJUkHt_ubvMJX4DZ316yhyphenhyphengh8KFyFbT8cgbMjWBcbv/s1980/NYC30570.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUaYx_C7wKPk04OUQwtWetzhpggJB8rjtBOsSvy-uyOy7XKhyKyfjWxwGv8nkRiBLBIl4f2ZQvIpCSEoXu4uuHx1t7XnfMORVk3TsGe1p8fY2oURa-uwskNpRhnW3hqWJQcNUT77v4cxWtUIIKLvLzuMdVk_deCbwRqtz5mmg-YXXuxgPDsi9bo7FE/s1980/NYC24605.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8fTaWg0Tvf6K7kZZTsyDlafa58E9kWRjTqmVYjsCW9MbckVlOBKVu1TqmEs7_KTjEQKM_Crg4_zCc2mN1meUpZ98ItfETSN9AAF7-T0I1x0-OUAECDWljyoLE26_5CA5KJJu92TX9rrxSfS3bWkcuQJ26SNFwLkKLuQR50RA54BDTtdOPgVjVPQ6-/s1980/NYC20550.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEherAgCtGTefLgnc7CgJMLufOeSGVrIoXzaqYnqcjKhROkhpr95IaynI88v1cd6gUjPJoZA8pCo5jo4p9W7K-g5OlAoFF7rN59H673No24LRGHZ_4Dtyfoba6kOiIb0D-BgNwl22mql-ZqxIp9kvx3C4EdGjqtLpK093Hwfcp3eO_5Z3F59lGd8IfJj/s1980/NYC9378.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEinlXT4jGb3CAhyphenhyphenrkq2WAYeatZM_1xRhPLvloeAwIs6H7mm_ORc1aAEEs4qfeqipxyFWksdgCOCyHFVkKndiT1oTSbC2RmS5XZU3ws9rxOK91eKqT9Y2NGwEQLT7qxpCj-K5Ty94Q0vFp-DfKCPD1tuSsSJhH15f44uzOybPx7aiBp1qPX-6TF6nIKk/s1980/NYC9374.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEghhMaiLPlEWmz6DBXgP0q8DC7_dkbYC2cOcrV8hKwGbem-mKmNEAg-9HpP1JRsTCcAcenOX2PM1NG8dq7w7uoc0yWrnq84ryUklthR0VY8_ZZtj7ODLb6F8GO_4KiJW3cE76azi_ttKEOMRaVxQUTc-sRvinOsiTSf9OgUbkknDRreyCGjmtveKZ1N/s1980/NYC8277.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjR-MMBCf3jjjA91aR9RzQ7QbQs3c-FomQUsJ9mKNzXKcakczTxP9mH1nvxdHqt92gW1ZiAHcLM4X4zxuw9ZTvklMsYJHULrndsqIHm0gVKJHq1jJgjeBRD4smql6M5HazPwg3shAIB1I_dW8LCHx-va4DEQ7E9mcCEnl9y-YkUu-V0u4b2Fxt6CAHk/s1980/NYC5356.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXdG2LoAg8p7yYm1XwD4nKrBQDN2IFQ-2_gi4v5ycE6fJrR5bn8TeKxHCm0o11NOLd707Je1iq1qRrb_4V24lh_zpjBM5yLK4M-rqSUmEhoRhJTR6ueniw84mirbE-4WUv43XbIUtiym0IS2PIIN9DEwqpV5fG2hwMRgXBmR6ypdtdag7I2zt6UiD1/s1980/NYC5349.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFeLinZbPyl1YwYwSfi0Lf_iaMhBwu0eM0HeATCZBoPtWVNf590ZjTYqfZjIqOE2gGaXn1cH1YcRT0yJ7AirAeo0stED-99NF1GSq8tv0df5reQ_6PrGOUpZXK4Ky8aNjUJTKMr5RynELJ96teTpLnJC8a9z4laWNjGAuH1c7h04GCcvTqD9xaeVeN/s1980/NYC5156.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiMR7X2duI9w9IWlrg-nGHbyvhOZEE6aPBnWIhY5mgDJ0DNaA3fS532vtBvWdyuqKcaP9apTS6B4reagByyHudqsKXMv-nhayzK_T20dd3IglcVh7vRGHrwozSr6RKVdMWprfuALBBUYQ9-Bv3oZjiWeTv1nPw02dzgd9lS25UgO6oEXyZsCOKkobbu/s1980/NYC5153.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbDibXbcWNTgfGb0oEG-u7IO0xajd0wsu54VEZEOBtctu-F6GwtcsbHg3gLnfjhdKAitIZYNsjkw6ygig7BoSCBYIEbmJ5ub70fZ3QN2LILoVkvMzP1boyU_FYebkxcw0MTvuCH_IaQjcaIiqWFDHlp2RE-X2afdiQAZeVIs0ImFp7Mz3rq9ESnETT/s1980/NYC5152.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjR5jYF85TdL7w4qFAC5rJgGzb_MoVeOzxSfiS2UScYYwoHjuWkt3M5F3hhuTnL6QZDvGMM8qb14IuADza6hfE7D-SlH9Pf7hRuDpfM3aCVJlcRDrKb7f1y-84xvQ5SMC3gCNbwiTLT_V7M7gxI-SHDRX7DMEWf_IfBkhM5W7DTTdcj0K7kzPWp530R/s1980/NYC5148.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhnVezkO3Z5KBq0h6XIRi6eM5k3NtDWsmCH_J97nDebSrWG-8h7-xXgafKo8s3Oxx8CrWVrLQnqxdmaSSuDix_OJAK5uajSfQG_OrlR6J10ceWSaoOYE2jMVzP8GPiNb-XK-c1ZMXpsX0AxLI6BL2d6oCanyfa0vIqg_reXncgQ9OKS5ZefhUqRSmIZ/s1980/NYC197.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYwU5u8iKKlQWphTJD11mXCq-CVRb6AaKUBzVfUMoGIlPyXE5XJEXvq8ZBnw_KuHInhDzwLr5-pIwQPoVYCzUmr7uHlMyon4LBOG7AACTd_T7x0d4s-LpOy-axQTBj3aoSlod-uIEbxG1FHIez7Mq0sUu_KxTth110tEy6PwvZR9-qB00NoVbkupQw/s1980/NYC196.jpg",
+      ];
+      // ========================
+      // Elements
+      // ========================
+      const grid = document.getElementById("photo-grid");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+
+      const btnClose = document.querySelector(".close");
+      const btnPrev = document.querySelector(".prev");
+      const btnNext = document.querySelector(".next");
+
+      let currentIndex = 0;
+
+      // ========================
+      // Gallery
+      // ========================
+      function createGallery() {
+        imageUrls.forEach((url, index) => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.loading = "lazy"; // performance boost
+          img.addEventListener("click", () => openLightbox(index));
+          grid.appendChild(img);
+        });
+      }
+
+      // ========================
+      // Lightbox
+      // ========================
+      function openLightbox(index) {
+        currentIndex = index;
+        updateLightbox();
+        lightbox.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lightbox.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+
+      function updateLightbox() {
+        lightboxImg.src = imageUrls[currentIndex];
+      }
+
+      function changeImage(step) {
+        currentIndex =
+          (currentIndex + step + imageUrls.length) % imageUrls.length;
+        updateLightbox();
+      }
+
+      // ========================
+      // Events
+      // ========================
+      btnClose.addEventListener("click", closeLightbox);
+      btnPrev.addEventListener("click", () => changeImage(-1));
+      btnNext.addEventListener("click", () => changeImage(1));
+
+      document.addEventListener("keydown", (e) => {
+        if (lightbox.style.display !== "flex") return;
+
+        if (e.key === "ArrowRight") changeImage(1);
+        if (e.key === "ArrowLeft") changeImage(-1);
+        if (e.key === "Escape") closeLightbox();
+      });
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      // ========================
+      // Init
+      // ========================
+      createGallery();
+    </script>
+  </body>
+</html>

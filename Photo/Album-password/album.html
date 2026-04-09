@@ -8,18 +8,14 @@
   </head>
 
   <body>
-    <div class="container header">
-      <h1>
-        <a class="href-black" href="../index.html">Cao Jilin</a>
-      </h1>
-    </div>
     <div class="container">
+      <h1><a class="href-black" href="../index.html">Cao Jilin</a></h1>
+      <h2 id="album-title">Loading...</h2>
       <p>
-        <a href="../paintings/index.html" class="href-blue"
+        <a href="../album-password/index.html" class="href-blue"
           >&larr; Back to Albums</a
         >
       </p>
-      <h3 id="album-title">Loading...</h3>
     </div>
 
     <!-- Gallery Container -->
@@ -35,8 +31,7 @@
     </div>
     <script>
       const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxNwKn_vfLb6wPXpXbIm78Lb-gRloYgaPRV58Eq3Eaoz-7SUi4pX-M5fYTvkChCUry6/exec";
-
+        "https://script.google.com/macros/s/AKfycbz9sTva3KOu8DRADnapgUMV-WlFSB4c_iXauyMsJtv-uuc208G1bcZINdiIFf9GJFs/exec";
       const params = new URLSearchParams(window.location.search);
       const folderId = params.get("id");
       const folderName = params.get("name");
