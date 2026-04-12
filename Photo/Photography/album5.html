@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Album | Cao Jilin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="../../global.style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1><a class="href-black" href="../index.html">Cao Jilin</a></h1>
+    <h2 id="album-title">Sony Cybershot Camera</h2>
+    <p>
+      <a href="../Photography/index.html" class="href-blue">&larr; Back to Albums</a>
+    </p>
+  </div>
+
+  <!-- Gallery -->
+  <div class="google-photos-grid" id="photo-grid"></div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <img id="lightbox-img" class="lightbox-content" />
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+    <span class="next">&#10095;</span>
+  </div>
+
+  <script>
+    // ========================
+    // Data
+    // ========================
+    const imageUrls = ['https://blogger.googleusercontent.com/img/a/AVvXsEi_tWEWZfa6C2vcuzYT9NOQ2U6klTk06XeIwTlfyrEo47o5RN5Kokd-jna-zGEdSJDp1sXTuNh7AWCHU-F9US5XkMpa8nKBekgd9LsGWPdB7SEKYkmGeqZWBDwpw3Wtu_o3JFZLJckdc_hBsTEpxLPc0ItLOQQ8TMOVhJZhKAoXlAKycW08_jvLPshy', 'https://blogger.googleusercontent.com/img/a/AVvXsEjYpj3krp4eIgUk8FgIT1ruZ4mvhrhBLyvLxb1E8GVYx2_Ru35KMp53GyeaiKGPiIs3w-HxgV5apo3refYGmgLxzJEANvLx6SK7bel_OponSx1nFEZ2pzoFHKy73QPPnGjGEIXOhamwPpkf0WI2VmbcUhFMV6Fa7FIYIWLJOE1m-Jnn0ES8-ebkDxuM', 'https://blogger.googleusercontent.com/img/a/AVvXsEhbg_LQVEIBDBQ0ui5Ii_ytyFVc_N1xj4ElPAG6dlT8IloYgUisvHN4u2VNyMgIEMLb8sJrLlWelMalKJEsOojnaEQzcK6dEwWV5Up5_2T5oY1INpfLHVEHuHNdnmQy4UJ8LttH1PqMKnn6v7MScB3Jap8-SWMRNbQDnPhfpY-MCXZdQ3m56UDfmAa6', 'https://blogger.googleusercontent.com/img/a/AVvXsEiZI8mLBgDxJifWH8_PKrx4FAd31IW19JRCo0dybdq1AgtPAWewHp2PvukHmvVZsme9kyRyQOd5-UmipTUVFJQEU2agKjpfXBfgqnUyL1s1vap61eNCO8uSIsAfov7QHhdPf2AQvMDrVljrzgic1r-ZUUCLjqpkK_97_EJwX3bYpuZzX80lQgkxdlTW', 'https://blogger.googleusercontent.com/img/a/AVvXsEgJsKxWeZoUKTE6miJpVNEhAncEVCT8fDNKULyQstBwbAmtnqmtBFAMurrKTYCrOj-dJRQmbHUTNGBsZMdkyadI87H3Fo8SVyU9sul0Z1qr6_aUymww6Hhd3busn1GtpolKwxM-pk9mVG-h-LNmCtbLWeuSpiRGaIUTzxxBF8VAabUjwwPlRmcozj-P', 'https://blogger.googleusercontent.com/img/a/AVvXsEgCfTFuWsCZ-yqCLNGgOjyQ-32vO7J9V8Ff72tsLI04kOiOPM4ILqZX7NalxKfehgrr7DhFAouQQPXqZNULoSDta-657CzkfPjKEW3xT4q2nGSl4ukO_xm8fRuv8K-6EIYOZMlzuhWnXxqGtNCBdv2BXeTHNaPTtMe_1Bg9u931PAEM8SdyoyEiGV2y', 'https://blogger.googleusercontent.com/img/a/AVvXsEhjBc1ko8kLWCE95Q_Hg3wqu80_DLUSKrtYvYTiD6uCJgqwFLse9gTQD1Wnhm2McPF5hWMay_pELxNZR-otxa2Dhzw1izftu1nmd542U4XSGBEwXHRH1JThqayfpBDsDW4zkxCfPpKlytGMZcYhWFUTwClvXPhzcEr87_YldkNk107gzCiLhUU_3HxO', 'https://blogger.googleusercontent.com/img/a/AVvXsEgNgV2gL6mwkdTTz6sBvAcpM6mJzDG664uRyqaew5Q_wKD2u6vGcK2-guyCILMFLaZoXw2K59gnN7RJ3Gm2gCP9SSiVxeE5_TE6Owvhv-6NJY-ijC5v_vPJ6rbEEnINLhcYIbI8bPh59aaTvPi9mGDJgEXV3aXUv186xV1rLaGdwThIHDwDY4e-2cfy', 'https://blogger.googleusercontent.com/img/a/AVvXsEi9zKPZomIwSE_sJXjl1bHfX6BLDBbAQN1KVLQXD4WGVYQxk4A2ONQr6_kvMZGi4GOzwYrFMvepPq_M-gja_uHC_U3HsIL8C2_W2tUpucYltLklYkIVQOr-QK812UdIQN8_PQVteiKyyFA0_Qwk9wpyHvNkJgNy4IxmiAy7bnMmDjeALbxhaTt77hbm', 'https://blogger.googleusercontent.com/img/a/AVvXsEgwdDA1Z9cyyNsOaQ7PmixWXz-tlcr0bVkUKkX07uunZZcNFyUy-Ub_a_uaxTzOfo6dt0-TER3GhH5aG5-QAKVff8yMzu2UXr7yyHVel_GF0tC_4ISxYgiHDYmZW6RwdIjLsk-mEzsmvKRde7NsD2TCNtT9vX-DPCIQwagrI4oNzcDbgzMWtAH58yOm', 'https://blogger.googleusercontent.com/img/a/AVvXsEiMlP6N2fyI26smc7CAoDMnpEY3mfjVVLj-AuWNnxy3xq_mjwDVLyp4DgYsE-h8LDYg0v10KRnCiM_5n_kWQ6FtssmHvPe9Kq92zjZyR9gTYiFsvK1cZn01yv1jFX4NTrsh2qzyD_G0_G3mp1rVl0N5glcIqkkQLiUEKXq7QeWnTwHd2Va12EudHZkL', 'https://blogger.googleusercontent.com/img/a/AVvXsEhnnKN9deS0DpP4XcH0SfJmjOR7lu6kpcGGEyxJqqmot0pLJcK4dCp-QmkeyyiLm36KxlGGuNCXltQWWeT-1jRFAmlnQnnOcsojpLRESa4YOO1HO47oOJgRlCIB5gJ_Hqf-WaLwc1yDMVDzOtQhIHOTpY93TE31HdqBhmYaJtpbh7muQmCygGjHtMod', 'https://blogger.googleusercontent.com/img/a/AVvXsEh-26ULPoeoq40JnCSKdNoTh_0cvamCkbJcKXOyYT0Lx9AiKf-WeyoYw-P5eeqKMbWdDZBzb80XEDc9llMXijDJpnajq1nluuwgMxvBUyW-lLhkHvYJCBWt93qrcNfvyOYKNbbCv7ghIL4x5a8SWsA7CLgr805bL36IRd55ONW53vK-mVXuE1liJfzt', 'https://blogger.googleusercontent.com/img/a/AVvXsEipWwuS-t1-AlxWQb0yw4Uqhi5RwI0pdNb8QHF_BSHw7AHUxXpb348r6oq8IVpKb5jAXdQdK6ygRYYRjMNMOscZRJY-rt6f8t9NsW9ohB4rL5qAnfjEizHGW86NFk7-AxPdTBdfrFluv8TMZ8WM6RqiFcixsS_qglmGL3iBqlM9ng0yReNevxMqtk1_', 'https://blogger.googleusercontent.com/img/a/AVvXsEjo7CPwYbN9JSkFqorITB8Udj5Nh3dGNV8wJXfnYywyK-r_m_ruohxgw6KuuPsOSVqKXq73uQAIjM5Z2h8qREprDtINtEBA3-UGm1KbZ2BGnAfOIUbyqOlJFHKK9dFi5b2HIH6VNJzahMdYS6tOcOzpTYvflRD0BMbWsewSZFs3b4JEoqyUswDABLGw', 'https://blogger.googleusercontent.com/img/a/AVvXsEgYnuRnBAfZgKGdnC2wz8MjIdq-CH9ryuRs2L6RjplAMzN57zpZN6zzg8garawqJ-M0loJMlFiPbIvHlUWdCCu0ZrYTB-5ItxAKek46A9a45z_uY0vbe3FOlHW8is5iXa1V7aqUysBD0OX1Mov1TQIWXqPloOiHX5k_IqiODQLIuxmaghM20fr3O4KY', 'https://blogger.googleusercontent.com/img/a/AVvXsEitq0-lRauOwlQTVax_gUP8L8IDEzSfVbmzuaywozDBAHdhjd_6jEew3yPG2r5fflC8sMBdZTonnsPyzLP3t1XKqHfv1caVZSEfbVzt8ec78HziCYC1hXpm-HJRBzyet6zbx4_uOGnVCjB9OYBebHRQM0r6MARcxKVxiEvX2Uip1DRdaUr-sWTM5pCz', 'https://blogger.googleusercontent.com/img/a/AVvXsEjEHtVuk4WqXAEDlg5OuCIoUt1O8k-96uLLSV5FqTpESDhpYVx6W3HjwpIw9fjz7mJFkJolu0cRFvmJu1JcOPtdUPHZpxLzWM7tX7_SKjUb8Y1U_J7_xRtu8Q8q8KPmJQJgxESNPNCVSrJYJGwW0vZNuM3XFlNTjGvsZkqkEotV-dsJ2xV68odZFE8P', 'https://blogger.googleusercontent.com/img/a/AVvXsEinENt8_iD8ITEWGj8E2js-8YbndEsnrBSPIoS5adoG8r8xqTK_vnt_ixEjHceDQADojyExU5LtRuiRNdLt3sGqMnGmYKUO29b1Q8sFmdLlJxcEgjMfPcZm7MMIV2WrSztMGjfIl_q9GPtcXDZ6Tn7GV3KNkkkgKbRAsVjR0PZgmda5y5hAamirHyKc', 'https://blogger.googleusercontent.com/img/a/AVvXsEjsfQnokD8T8qZPRvCqVHlTwGjYZqzy0Y2ZGjWA7WjBWdE7_78MXHdW2InKOeajMyfYoA4PsJ2mUTWWd5o8r44S27DL3JRI0ZOGrKh4Hntmv5frrFuUGizYUbW2NC4E3Dm0oofc5xKEN44gtVEhtNNTtY8zTzo3RQq7-P0bhhRGJCx24a47EU9GRAkQ', 'https://blogger.googleusercontent.com/img/a/AVvXsEiIWlfCD-I2r2kZ2JRbLDZ7FJAPjo3akE7xcs8aJ8mxVDYgC5U2-jQG0c-Y-bat1v11XTfqFXHMitVnRa8JEEI65sz536yuTU_61RJRa_N3K00nKuPkVHnrNMLpZbaYllNLU9SBhLNq0EJNMmR96vx18UEUfSfAoAwEF-yoO75SOisM4sRoCRoNzkFC', 'https://blogger.googleusercontent.com/img/a/AVvXsEjdeEplMYdm2pnyXZIdgd6eHqEBgJ0cI9EH60Lyfug2W8371H75OaNxO4L7sSrrM0Gy1y2AGLFwuclL2i6CfC7IsKBhClHQP3xAHybmpV9ydeQ508FuJig4OEe5CnEfXGuQ8OBJS0jLE2jmokeJ657cNS4ZTOwcSWZ-LA4-FBRP340HvbTYQoW1f6rn', 'https://blogger.googleusercontent.com/img/a/AVvXsEhocm-zxb4woENy23WhmiItYW-O_P8qU3nFxQdanCIbQ6loThvY8cHUEzn3CyZoUNph2LijGhoSKNuOC3qWOvRBuAMgNaFZTlsTNfNSxTNYl--kHZrOb9WZ6RyqEnMptEb0LFYHycak2ethJp6fPiiRQ9pS0hIjVpPvjoYsdUcf_lsyaOnQTEcZRbwE', 'https://blogger.googleusercontent.com/img/a/AVvXsEhv0D_jMCXSvDCLJpQeMOwTKXDDS6J5yqeP33DKETZfyD_bUr9YFpGbtxA4eZCnIVe2ssphK4wEjfbuKSzbDuOn3z2Xk0YllEUk2mJIJ2SCTHASUJfxdMGAcN2Fd9RgrNjugf46NaD7xmAPWQp-5ruomptPaTZ3vR-L9auWSVlg-aJBTxMBFfbA_5MM', 'https://blogger.googleusercontent.com/img/a/AVvXsEgJ1fU1Ezu9_-Iry-CzkzjqZ29V1-utE2g3WPoXJTlBEPKvpx0AR0iLH4al9wVyTl76-c5ISbNwubVwFMra-VOZDgm37s2e6Aih02wgbNoUGePanOvw2y8mK33chlNnRZz2hlb_JCiQ0IZrZV8LYFJV5hTn-J-GeLuez3TzmcmbBWjklXxn7j-u4VJn']
+    const grid = document.getElementById("photo-grid");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    const btnClose = document.querySelector(".close");
+    const btnPrev = document.querySelector(".prev");
+    const btnNext = document.querySelector(".next");
+
+    let currentIndex = 0;
+
+    // ========================
+    // Gallery
+    // ========================
+    function createGallery() {
+      imageUrls.forEach((url, index) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.loading = "lazy"; // performance boost
+        img.addEventListener("click", () => openLightbox(index));
+        grid.appendChild(img);
+      });
+    }
+
+    // ========================
+    // Lightbox
+    // ========================
+    function openLightbox(index) {
+      currentIndex = index;
+      updateLightbox();
+      lightbox.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    function updateLightbox() {
+      lightboxImg.src = imageUrls[currentIndex];
+      // This is where you'd set the text. 
+      // For now, I've put a placeholder so you can see the space.
+      document.getElementById("lightbox-caption").innerText = "Photo " + (currentIndex + 1) + " of " + imageUrls.length;
+    }
+
+    function changeImage(step) {
+      currentIndex =
+        (currentIndex + step + imageUrls.length) % imageUrls.length;
+      updateLightbox();
+    }
+
+    // ========================
+    // Events
+    // ========================
+    btnClose.addEventListener("click", closeLightbox);
+    btnPrev.addEventListener("click", () => changeImage(-1));
+    btnNext.addEventListener("click", () => changeImage(1));
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.style.display !== "flex") return;
+
+      if (e.key === "ArrowRight") changeImage(1);
+      if (e.key === "ArrowLeft") changeImage(-1);
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // ========================
+    // Init
+    // ========================
+    createGallery();
+  </script>
+</body>
+
+</html>
