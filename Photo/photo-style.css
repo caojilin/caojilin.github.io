@@ -55,33 +55,40 @@
   flex-grow: 1000;
 }
 
-/* --- 5. Lightbox --- */
 .lightbox {
   display: none;
   position: fixed;
-  z-index: 9999;
+  z-index: 2000;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  /* Reduced padding so the image hits the edges more closely */
+  padding: 10px;
 }
 
 .lightbox-content {
-  max-width: 95vw;
-  max-height: 85vh;
+  width: auto;
+  max-width: 100%;
+  /* Increased to 90% to fill the screen more, leaving 10% for text */
+  max-height: 95vh;
   object-fit: contain;
+  /* Removes any default browser margins */
+  margin: 0;
 }
 
 .lightbox-caption {
-  color: #ccc;
-  margin-top: 15px;
+  /* Reduced margin to keep the text close to the image */
+  margin-top: 5px;
+  color: #ffffff;
   font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
 }
-
 .close,
 .prev,
 .next {
@@ -118,7 +125,6 @@
   font-size: 30px;
   transform: translateY(-50%);
 }
-
 
 @keyframes spin {
   100% {

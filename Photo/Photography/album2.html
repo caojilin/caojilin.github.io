@@ -22,13 +22,14 @@
     <!-- Gallery -->
     <div class="google-photos-grid" id="photo-grid"></div>
 
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-      <span class="close">&times;</span>
-      <span class="prev">&#10094;</span>
-      <img id="lightbox-img" class="lightbox-content" />
-      <span class="next">&#10095;</span>
-    </div>
+     <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <img id="lightbox-img" class="lightbox-content" />
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+    <span class="next">&#10095;</span>
+  </div>
 
     <script>
       // ========================
@@ -145,8 +146,11 @@
       }
 
       function updateLightbox() {
-        lightboxImg.src = imageUrls[currentIndex];
-      }
+      lightboxImg.src = imageUrls[currentIndex];
+      // This is where you'd set the text. 
+      // For now, I've put a placeholder so you can see the space.
+      document.getElementById("lightbox-caption").innerText = "Photo " + (currentIndex + 1) + " of " + imageUrls.length;
+    }
 
       function changeImage(step) {
         currentIndex =
