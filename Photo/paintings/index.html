@@ -1,69 +1,98 @@
 <!doctype html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <title>Photos - Cao Jilin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="../photo-style.css" />
-    <link rel="stylesheet" type="text/css" href="../../global.style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Freehand&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <div class="container header">
-      <h1>
-        <a class="href-black" href="../index.html">Cao Jilin</a>
-      </h1>
-    </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Photos - Cao Jilin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="../photo-style.css" />
+  <link rel="stylesheet" type="text/css" href="../../global.style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Freehand&display=swap" rel="stylesheet" />
+</head>
 
-    <div class="container">
-      <h3>
-        <a href="../../Photo/index.html" class="href-blue">&larr; Back to</a>
-      </h3>
+<body>
+  <div class="container header">
+    <h1>
+      <a class="href-black" href="../index.html">Cao Jilin</a>
+    </h1>
+  </div>
 
-      <div class="album-grid" id="album-grid"></div>
-    </div>
-    <script>
-      const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbw7rTym58lsrWbNPtZ17pexMJttIdG6nzzvWtv5XT8zsOsYcxbU4uJ_wtgI8NVQavQQ/exec";
-      const CACHE_KEY = "paintings";
-      const grid = document.getElementById("album-grid");
+  <div class="container">
+    <h3>
+      <a href="../../Photo/index.html" class="href-blue">&larr; Back to</a>
+    </h3>
 
-      function renderFolders(folders) {
-        grid.innerHTML = "";
-        folders.forEach((folder) => {
-          grid.innerHTML += `
-        <a href="album.html?id=${folder.id}&name=${encodeURIComponent(
+    <button id="refresh-cache">Refresh Albums</button>
+
+    <div class="album-grid" id="album-grid"></div>
+  </div>
+
+  <script>
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbw7rTym58lsrWbNPtZ17pexMJttIdG6nzzvWtv5XT8zsOsYcxbU4uJ_wtgI8NVQavQQ/exec";
+
+    const CACHE_KEY = "paintings";
+    const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+
+    const grid = document.getElementById("album-grid");
+    const refreshButton = document.getElementById("refresh-cache");
+
+    function renderFolders(folders) {
+      grid.innerHTML = "";
+
+      folders.forEach((folder) => {
+        grid.innerHTML += `
+            <a href="album.html?id=${folder.id}&name=${encodeURIComponent(
           folder.name,
         )}" class="album-card">
-          <div class="album-title">${folder.name}</div>
-        </a>
-      `;
-        });
-      }
+              <div class="album-title">${folder.name}</div>
+            </a>
+          `;
+      });
+    }
 
-      const cached = localStorage.getItem(CACHE_KEY);
+    async function loadFolders(forceRefresh = false) {
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
 
-      if (cached) {
-        renderFolders(JSON.parse(cached));
-        console.log("Loaded from local storage. Fetch skipped.");
-      } else {
-        fetch(SCRIPT_URL + "?action=listFolders")
-          .then((res) => res.json())
-          .then((folders) => {
-            localStorage.setItem(CACHE_KEY, JSON.stringify(folders));
-            renderFolders(folders);
-          })
-          .catch((err) => {
-            grid.innerHTML = "<p>Error loading albums.</p>";
-            console.error(err);
-          });
+        if (cached && !forceRefresh) {
+          const parsed = JSON.parse(cached);
+
+          if (Date.now() - parsed.time < CACHE_DURATION) {
+            renderFolders(parsed.data);
+            console.log("Loaded from local storage.");
+            return;
+          }
+        }
+
+        const response = await fetch(SCRIPT_URL + "?action=listFolders");
+        const folders = await response.json();
+
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({
+            time: Date.now(),
+            data: folders,
+          }),
+        );
+
+        renderFolders(folders);
+        console.log("Loaded fresh data.");
+      } catch (err) {
+        grid.innerHTML = "<p>Error loading albums.</p>";
+        console.error(err);
       }
-    </script>
-  </body>
+    }
+
+    refreshButton.addEventListener("click", () => {
+      localStorage.removeItem(CACHE_KEY);
+      loadFolders(true);
+    });
+
+    loadFolders();
+  </script>
+</body>
+
 </html>
