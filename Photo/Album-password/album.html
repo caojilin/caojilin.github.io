@@ -100,7 +100,7 @@
 
       photos.forEach((photo, index) => {
         const img = document.createElement("img");
-        img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
+        img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w2000`;
         img.alt = photo.name;
         img.onerror = () => {
           img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w500`;
@@ -109,7 +109,7 @@
         grid.appendChild(img);
 
         const preloader = new Image();
-        preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
+        preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w2000`;
       });
     }
 

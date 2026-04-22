@@ -100,16 +100,16 @@
 
         photos.forEach((photo, index) => {
           const img = document.createElement("img");
-          img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
+          img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w4000`;
           img.alt = photo.name;
           img.onerror = () => {
-            img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w500`;
+            img.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1200`;
           };
           img.onclick = () => openLightbox(index);
           grid.appendChild(img);
 
           const preloader = new Image();
-          preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1000`;
+          preloader.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w4000`;
         });
       }
 
@@ -123,7 +123,7 @@
 
       function updateLightbox() {
         const photo = allPhotos[currentIndex];
-        lightboxImg.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w2000`;
+        lightboxImg.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w4000`;
         lightboxCaption.textContent = photo.name;
       }
 
